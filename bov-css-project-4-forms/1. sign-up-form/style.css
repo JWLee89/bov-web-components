@@ -1,0 +1,286 @@
+/**
+ * Tab CSS
+ * ==========================
+ */
+* {
+    box-sizing: border-box;
+}
+
+/**
+ * Tab CSS
+ * ==========================
+ */
+.tab-component {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 5px;
+}
+
+.tabs-container > .tab-contents, .hide {
+    display: none;
+}
+
+.hide-radio {
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.tab-component > input[type=radio].tab-component-tab {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.tab-component label.tab-component-label {
+    background-color: #fff;
+    bottom: 5px;    /* To provide some space */
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-left: -4px;
+    margin-right: -4px;
+    padding: 10px 16px 5px 26px;
+    position: relative;
+    text-transform: capitalize;
+    z-index: 1000;
+}
+
+.tab-component > .tab-component-label::after {
+    background: #BCD4E6;
+    content: "";
+    height: 1em; /* Relative to the height of the text yaye :)*/
+    left: 12px;
+    position: absolute;
+    top: 10px;
+    width: 5px;
+}
+
+/* Hover Events */
+.tab-component > .tab-component-label:hover {
+    color: #2281CF;
+}
+
+.tab-component > .tab-component-label:hover::after,
+.tab-component > .tab-component-label:checked + .tab-component-label::after {
+    background: #4D71A3;
+}
+
+/* Where the magic happens */
+input[type=radio]#signup-form:checked ~ .tabs-content-container > .tab-contents[data-target="signup-form"],
+input[type=radio]#login-form:checked ~ .tabs-content-container > .tab-contents[data-target="login-form"] {
+    display: block;
+    opacity: 1;
+}
+
+.tab-component > input[type=radio]:checked + label{
+    border: 1px solid #82cffa;
+    border-bottom: 0;
+    color: #4D71A3;
+    padding-bottom: 7px;
+    background-color: #f0f9ff;
+}
+
+/* Hide tabs by default */
+.tabs-content-container > div.tab-contents {
+    display: none;
+    opacity: 0;
+}
+
+.tabs-content-container {
+    border: 1px solid #82cffa;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 20px;
+}
+
+/**
+ * Form classes
+ * =============================
+ */
+
+.header {
+    line-height: 1.75em;
+    border-bottom: 1px solid #ececec;
+}
+
+.header-form {
+    position: relative;
+    padding-left: 12px;
+}
+.header-form::before {
+    content: "";
+    height: 1em;
+    left: 2px;
+    position: absolute;
+    top: 0.3em;
+    width: 3px;
+}
+
+.header-form-brown::before {
+    background-color: brown;
+}
+
+.header-form-orange::before {
+    background-color: #e7a61a;
+}
+
+.input-form-label {
+    font-size: 1.2em;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.6em;
+    margin-bottom: 5px;
+}
+
+.signup-form .input, .login-form .input {
+    padding: 10px;
+    border: 1px solid #f4f4f3;
+    border-radius: 6px;
+}
+
+.btn {
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-dark-blue {
+    background-color: #003366;
+    color: #fff;
+}
+
+.btn:hover {
+    opacity: 0.7;
+}
+
+.btn-submit {
+    box-shadow: 10px 10px 22px -10px rgba(0,0,0,0.75);
+    background-color: #2196F3;
+    color: #FFF;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.pill {
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-decoration: none;
+    transition: opacity 0.35s;
+}
+
+.pill-light-blue {
+    background-color: #5bc0de;
+    color: #fff;
+}
+
+.pill:hover {
+    opacity: 0.75;
+}
+
+/**
+ * Remember me slider Start
+ * ===============================
+ */
+
+.toggle-slide {
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    width: 60px;
+}
+
+.toggle-slide-circle, .toggle-slide-circle:before {
+    border-radius: 12px;
+}
+
+.toggle-slide-circle {
+    background-color: #ccc;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right:0;
+    top: 0;
+}
+
+.toggle-slide-circle:before {
+    background-color: #fff;
+    bottom: 2px;
+    content: "N";
+    font-weight: 600;
+    height: 26px;
+    left: 4px;
+    line-height: 1.4em;
+    position: absolute;
+    text-align: center;
+    transition: all 0.3s;
+    width: 26px;
+}
+
+/*
+    Switch between Y and N
+*/
+.toggle-slide > input[type=checkbox]:checked + .toggle-slide-circle:before {
+    content: "Y";
+    transform: translateX(24px);
+}
+
+.toggle-slide > input[type=checkbox]:checked + .toggle-slide-circle {
+    background-color: #a1d6e2;
+}
+
+/*
+ * Utility classes
+ * =======================
+ */
+
+.col-12, .col-6 {
+    display: inline-block;
+    padding: 1%;
+}
+
+.col-12, .full-width, .btn-submit {
+    width: 100%;
+}
+
+.col-6 {
+    width: 49.5%;
+}
+
+.row {
+    margin: 20px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
+
+.no-margin-bot {
+    margin-bottom: 0;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.align-bottom {
+    vertical-align: bottom;
+}
+
+@media screen and (max-width: 768px) {
+    .col-12, .col-6 {
+        width: 100%;
+        margin: 12px 0;
+    }
+    .tab-component label.tab-component-label {
+        display: block;
+    }
+}
