@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 4 Part 1 - Sign Up Form</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <!-- Begin tabs -->
+    <div class="tab-component">
+        <!-- Tab 1- Signup Form -->
+        <input type="radio" class="tab-component-tab hide-radio" name="tab-component" id="signup-form" checked>
+        <label class="tab-component-label" for="signup-form">Signup Form</label>
+
+        <!-- Tab 2 - login form-->
+        <input type="radio" class="tab-component-tab hide-radio" name="tab-component" id="login-form">
+        <label class="tab-component-label" for="login-form">Login</label>
+
+        <!-- Contents -->
+        <div class="tabs-content-container">
+            <div class="tab-contents" data-target="signup-form">
+                <section class="signup-form">
+                    <h2 class="header">Registration</h2>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-form-label header-form header-form-orange">First name</div>
+                            <input type="text" class="input full-width" placeholder="e.g. John">
+                        </div>
+                        <div class="col-6">
+                            <div class="input-form-label header-form header-form-orange">Last name</div>
+                            <input type="text" class="input full-width" placeholder="e.g. Connor">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-form-label header-form header-form-orange margin-top-20">Email Address</div>
+                            <input type="email" class="input full-width" placeholder="e.g. bill.gates@gmail.com">
+
+                            <div class="input-form-label header-form header-form-orange margin-top-20">Date of Birth</div>
+                            <input type="date" class="input full-width">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-form-label header-form header-form-orange margin-top-20">Password</div>
+                            <input type="password" class="input full-width" placeholder="must at least two special characters and alphanumeric characters">
+
+                            <div class="input-form-label header-form header-form-orange margin-top-20">Confirm Password</div>
+                            <input type="password" class="input full-width" placeholder="Same password that you entered on the left">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-submit" value="Register">
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="tab-contents" data-target="login-form">
+                <section class="login-form">
+                    <h2 class="header header-form">Login</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-form-label header-form header-form-orange">Username or E-mail Address </div>
+                            <input type="text" class="input full-width" placeholder="e.g. myusername or user@gmail.com">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-form-label header-form header-form-orange">Password</div>
+                            <input type="password" class="input full-width">
+                            <br/>
+                            <br/>
+                            <a class="pill pill-light-blue" href="#reset">Reset Password</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-form-label inline-block margin-right-20 no-margin-bot">Remember me</div>
+                            <label class="toggle-slide align-bottom">
+                                <input type="checkbox" class="hide">
+                                <div class="toggle-slide-circle"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-submit btn-dark-blue" value="Login">
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
