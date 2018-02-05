@@ -1,0 +1,83 @@
+.calculator-container {
+    margin: 0 auto;
+    width: 400px;
+}
+
+.btn {
+    background-color: aliceblue;
+    padding: 10px;
+}
+
+.row {
+    display: table;
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.calculator-border {
+    border: 0.2px solid #EBF4FA;
+    outline: 0.2px solid #EBF4FA;
+}
+
+.calculator-column {
+    cursor: pointer;
+    box-sizing: border-box;
+    display: table-cell;
+    font-size: 1.2em;
+    font-weight: 300;
+    height: 50px;
+    position: relative;
+    transition: background-color 0.4s ease-in-out;
+    vertical-align: middle;
+    width: 25%;
+}
+
+.calculator-column > input[type=radio] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    bottom: 0;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+.non-number-column {
+    background-color: #fffcfc;
+    color: #206BA4;
+    font-weight: bold;
+}
+
+.calculator-column:hover,
+.calculator-column > input[type=radio]:checked {
+    background-color: #EBF4FA;
+}
+
+.calculator-column:active {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) inset;
+}
+
+.calculator-input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #FFF;
+    box-sizing: border-box;
+    height: 75px;
+    font-size: 3em;
+    /* Added to give padding so that text is not stuck to the edge*/
+    padding: 20px;
+    width: 100%;
+}
