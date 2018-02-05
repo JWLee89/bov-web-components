@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 5 - Product Listing Page</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <!--
+        I don't like the idea of copying
+        of copying and pasting HTML code.
+        Although i haven't started JS course yet,
+        I will just use handlebars to template fake data.
+     -->
+    <!-- Begin List of items -->
+    <section class="item-list">
+        <h2 class="shopping-list-header">Your Shopping Cart</h2>
+        <div id="shopping-list-section">
+            <!-- Contents generated dynamically via handlebars -->
+        </div>
+    </section>
+
+    <!-- Begin shopping cart item list -->
+    <section class="shopping-cart">
+        <h2 class="shopping-cart-header">Your Shopping Cart</h2>
+        <div id="shopping-cart-list-section">
+            <!-- Contents generated dynamically via handlebars -->
+        </div>
+    </section>
+</body>
+<!-- Import for handlebars -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<!-- Template for item list -->
+<script id="item-list-template" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="item-container">
+            <div class="row">
+                <div class="col-3">
+                    <img class="product-img inline-block" src="{{ imgUrl }}" alt="Effective Java 3rd Edition"/>
+                </div>
+                <div class="col-9">
+                    <div class="item-container-content inline-block align-top">
+                        <!-- Heading -->
+                        <div class="item-heading bottom-border">
+                            <div class="product-info-section float-left">
+                                <h2>
+                                    <a href="#">{{ productName }}</a>
+                                </h2>
+                                <span class="author">
+                                by <a href="#">{{ maker }}</a>
+                                </span>
+                            </div>
+                            <div class="add-to-cart-section float-right">
+                                <button class="btn btn-add-to-cart">Add to Cart</button>
+                            </div>
+                            <div class="clear-fix"></div>
+                        </div>
+                        <!-- Body text -->
+                        <div class="item-container-content-body">
+                            <!-- Description -->
+                            <p class="block-with-text">{{ description }}</p>
+                            <!-- Price -->
+                            <div class="item-information top-border">
+                                <div>{{{ printPrice price }}}</div>
+                            </div>
+                        </div>
+                        <!-- -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<!-- Template for item list -->
+<script id="shopping-cart-list-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <div class="item-container">
+        <div class="row">
+            <div class="col-3">
+                <img class="product-img inline-block" src="{{ imgUrl }}" alt="Effective Java 3rd Edition"/>
+            </div>
+            <div class="col-9 padding-left-20">
+                <div class="row bottom-border">
+                    <div class="col-6 align-middle padding-15">
+                        <h3>{{ productName }}</h3>
+                    </div>
+                    <div class="col-2 align-middle padding-15">
+                        {{ price }}
+                    </div>
+                    <div class="col-2 align-middle padding-15">
+                        <input type="number" class="input full-width" value="{{ quantity }}">
+                    </div>
+                    <div class="col-2 align-middle padding-15">
+                        <!-- Should later calculate the total, but for now ... -->
+                        {{ price }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 align-middle padding-15 text-center">
+                        <h3>Add promo code</h3>
+                    </div>
+                    <div class="col-4 align-middle padding-15 text-center">
+                        <input type="text" class="input full-width" placeholder="XX-XX-XXXX">
+                    </div>
+                    <div class="col-4 align-middle padding-15 text-center">
+                        <!-- Later on, we can add some extended styling or some font awesome
+                             to make it look neater. -->
+                        <button class="btn btn-red">&#8854;&nbsp; Remove From Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    <!-- Total and checkout button -->
+    <div class="item-container">
+        <div class="row">
+            <div class="col-12 padding-left-20">
+                <div class="row bottom-border">
+                    <div class="col-8 align-middle padding-15 text-right">
+                        <div style="width: 100%; height: 200px; padding: 15px;
+                        background-color: #f1f2f3; border-radius:
+                         8px; text-align: center; font-size: 2em;">Content Placeholder</div>
+                    </div>
+                    <div class="col-4 align-middle padding-15 text-right">
+
+                        <table class="table pricing-table">
+                            <tr>
+                                <td>Shopping Cart Item Total Price</td>
+                                <td>{{{ printPrice '$1337.11' }}}</td>
+                            </tr>
+                            <tr>
+                                <td>Shipping fees</td>
+                                <td>{{{ printPrice '0.00' }}}</td>
+                            </tr>
+                            <tr>
+                                <td>Taxes</td>
+                                <td>{{{ printPrice '$133.71' }}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>{{{ printPrice '$1470.82' }}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 padding-left-20">
+                <div class="row bottom-border">
+                    <div class="col-6 align-middle padding-15 text-right">
+                        <button class="btn btn-lg btn-blue">&rarr;&nbsp;Continue Shopping</button>
+                    </div>
+                    <div class="col-6 align-middle padding-15 text-right">
+                        <button class="btn btn-checkout">Proceed to Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+
+    (function() {
+
+        /**
+         * @param {Object|Array} data The data we will be templating
+         * @param {Object} targetEl The DOM element to append the generated HTML
+         * @param {String} templateId the id of the handlebars template
+         * @return undefined
+         * */
+        function initializeHandlebarsTemplate(data, targetEl, templateId) {
+            // Compile handlebars template template
+            var templateEl = document.getElementById(templateId);
+            var template = Handlebars.compile(templateEl.innerHTML);
+            // Compile HTML and append compiled HTML
+            targetEl.innerHTML = template(data);
+        }
+
+        // For handling US dollar inputs
+        // Other currencies might need a different approach
+        // therefore, this is just for show
+        // Price is a string, not a float or double
+        Handlebars.registerHelper("printPrice", function(price) {
+            var totalPriceList = price.split(".");
+            var dollar = "<sup class='currency'>" + totalPriceList[0][0] + "</sup>" + totalPriceList[0].substr(1);
+            var cent;
+            if (totalPriceList.length > 1) {
+                cent = "<sup class='cent'>" + totalPriceList[1] + "</sup>";
+            }
+            return cent ? dollar + cent : dollar;
+        });
+
+        /**
+         * item list
+         * =============================
+         * */
+        var itemList = [
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Plugable USB 3.0 Universal Laptop Docking Station for Windows (Dual Video HDMI & DVI / VGA, Gigabit Ethernet, Audio, 6 USB Ports)",
+                maker: "Pluggable",
+                price: "$102.31",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x350",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "JavaScript - The Good Parts",
+                maker: "Douglas Crockford",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: "A very good book written by Douglas Crockford. A must read for intermediate JavaScript developers."
+            },
+            {
+                productName: "Effective Java (2nd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: "Slightly outdated, but still worth a read. Remember that it will not contain references or mention some of the newer features introduced in Java 7+."
+            },
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+        ];
+
+        /**
+         * Shopping list
+         * =============================
+         * */
+        var shoppingCartList = [
+            {
+                productName: "Effective Java (3rd Edition)",
+                maker: "Joshua Blotch",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "Plugable USB 3.0 Universal Laptop Docking Station for Windows (Dual Video HDMI & DVI / VGA, Gigabit Ethernet, Audio, 6 USB Ports)",
+                maker: "Pluggable",
+                price: "$102.31",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x350",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                productName: "JavaScript - The Good Parts",
+                maker: "Douglas Crockford",
+                price: "$49.11",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: "A very good book written by Douglas Crockford. A must read for intermediate JavaScript developers."
+            }
+        ];
+
+        var itemListElement = document.getElementById("shopping-list-section");
+        var shoppingCartListElement = document.getElementById("shopping-cart-list-section");
+
+        // Generate HTML for item list
+        initializeHandlebarsTemplate(itemList, itemListElement, "item-list-template");
+
+        // Generate HTML for shopping cart list
+        initializeHandlebarsTemplate(shoppingCartList, shoppingCartListElement, "shopping-cart-list-template");
+
+    })();
+</script>
+</html>

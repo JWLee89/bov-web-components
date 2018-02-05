@@ -1,0 +1,226 @@
+/*
+ * Utility classes
+ * =======================
+ */
+.col-12, .col-8, .col-6, .col-4 {
+    display: inline-block;
+    padding: 1%;
+    vertical-align: top;
+}
+
+.col-12, .full-width, .btn-submit {
+    width: 100%;
+}
+
+.col-8 {
+    width: 66%;
+}
+
+.col-6 {
+    width: 49.5%;
+}
+
+.col-4 {
+    width: 32.9%;
+}
+
+.row {
+    margin: 20px;
+}
+
+.margin-top-20 {
+    margin-top: 20px !important;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.block {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.align-middle {
+    vertical-align: middle;
+}
+
+.align-bottom {
+    vertical-align: bottom;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.center-block {
+    margin: 0 auto;
+}
+
+.relative-container {
+    position: relative;
+}
+
+/**
+ * Form classes
+ * =============================
+ */
+
+* {
+    box-sizing: border-box;
+}
+
+.form {
+    border: 1px solid #ececec;
+    margin: 50px auto;
+    max-width: 1024px;
+}
+
+.form-black {
+    background-color: #343434;
+}
+
+.contextual-help {
+    color: #fff;
+}
+
+.contextual-help-required {
+    color: #ffcc00;
+}
+
+.contextual-help:not(.contextual-help-required):before {
+    content: "Optional: "
+}
+
+.contextual-help-required:before {
+    content: "Required: "
+}
+
+/* Css blink to highlight help message */
+.form-black .input:focus + p,contextual-help {
+    animation: highlight-help linear 2s;
+}
+/*
+    To highlight what an input is for
+    Tried many different effects but
+    finally settled with this
+*/
+@keyframes highlight-help {
+    0%  { text-decoration: underline; }
+    33% { text-decoration: none; }
+    66% { text-decoration: underline;  }
+    100% { text-decoration: none; }
+}
+
+.form-heading > .header {
+    background-color: #336699;
+    border: 4px solid #bcc2c7;
+    color: #fff;
+    font-size: 1.8em;
+    height: 60px;
+    left: -60px;
+    letter-spacing: 0.1em;
+    padding: 20px 30px;
+    position: absolute;
+    top: -60px;
+    min-width: 400px;
+}
+
+.header {
+    line-height: 0.5em;
+}
+
+.input-form-label {
+    font-size: 1.2em;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.6em;
+    margin-bottom: 5px;
+}
+
+.form .input {
+    background-color: #f9f9f8;
+    border: 3px solid #f1f1f2;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.btn {
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-transparent {
+    background-color: transparent;
+    position: relative;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.btn-dark-blue {
+    background-color: #003366;
+    border: 1px solid #336699;
+    color: #fff;
+}
+
+.btn:hover {
+    opacity: 0.7;
+    border: 1px solid #Bcd4e6;
+}
+
+.line-separator {
+    border-bottom: 4px solid #fff;
+    margin: 40px 30px;
+    position: relative;
+}
+
+.line-separator:after {
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    content: "";
+    height: 20px;
+    left: 49%;
+    top : -10px;
+    position: absolute;
+    width: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .form-heading > .header {
+        left: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .col-12, .col-8, .col-6, .col-4 {
+        width: 100%;
+        margin: 12px 0;
+    }
+    .tab-component label.tab-component-label {
+        display: block;
+    }
+    .form-heading > .header {
+        font-size: 1.6em;
+        line-height: 1.4em;
+        min-width: 0;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 421px) {
+    .form-heading > .header {
+        height: 120px;
+        top: -80px;
+    }
+}

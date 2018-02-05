@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 4 Part 2 (a) - Shipping and Billing Address Form</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <!-- Begin Tabs -->
+    <div class="tab-component">
+        <!-- Tab 1 - Shipping and billing form -->
+        <input type="radio" class="tab-component-tab hide-radio" name="tab-component" id="shipping-billing-form" checked>
+        <label class="tab-component-label" for="shipping-billing-form">Shipping and Billing Address Form</label>
+
+        <!-- Tab 2 - Credit Card-->
+        <input type="radio" class="tab-component-tab hide-radio" name="tab-component" id="credit-card-form">
+        <label class="tab-component-label" for="credit-card-form">Credit Card Details Form</label>
+
+        <!-- Contents - Added tabs instead of accordion so that two github pages are not created -->
+        <div class="tabs-content-container">
+            <div class="tab-contents" data-target="shipping-billing-form">
+                <section class="form">
+                    <!-- Shipping Address-->
+                    <section class="shipping-section">
+                        <h2 class="header">Shipping Address</h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input-form-label header-form header-form-orange">First name</div>
+                                <input type="text" class="input full-width" placeholder="e.g. John">
+                            </div>
+                            <div class="col-6">
+                                <div class="input-form-label header-form header-form-orange">Last name</div>
+                                <input type="text" class="input full-width" placeholder="e.g. Connor">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="input-form-label header-form header-form-orange margin-top-20">Address</div>
+                                <!--
+                                    Can use textarea, but for the sake of design and also validation in the future, I will use text input
+                                     Breaking this down into multiple types of input might not be a bad idea
+                                 -->
+                                <input type="text" class="input full-width"
+                                       placeholder="Your full address. Cannot exceed 250 characters" maxlength="250">
+                            </div>
+                            <div class="col-4">
+                                <div class="input-form-label header-form header-form-orange margin-top-20">City</div>
+                                <input type="text" class="input full-width" placeholder="e.g. Sydney">
+                            </div>
+
+                            <!--
+                                 Another good idea is to have the country be selected as select box
+                                 and dynamically populate city based on country selected
+                                 However, in order to populate said inputs dynamically, we would require
+                                 javascript.
+                             -->
+                            <div class="col-4">
+                                <div class="input-form-label header-form header-form-orange margin-top-20">Country</div>
+                                <input type="text" class="input full-width" placeholder="e.g. Australia">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Billing -->
+                    <section class="billing-section">
+                        <h2 class="header">Billing Address</h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input-form-label header-form header-form-orange">First name</div>
+                                <input type="text" class="input full-width" placeholder="e.g. John">
+                            </div>
+                            <div class="col-6">
+                                <div class="input-form-label header-form header-form-orange">Last name</div>
+                                <input type="text" class="input full-width" placeholder="e.g. Connor">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="input-form-label header-form header-form-orange margin-top-20">Address</div>
+                                <!--
+                                    Can use textarea, but for the sake of design and also validation in the future, I will use text input
+                                     Breaking this down into multiple types of input might not be a bad idea
+                                 -->
+                                <input type="text" class="input full-width"
+                                       placeholder="Your full address. Cannot exceed 250 characters" maxlength="250">
+                            </div>
+                            <div class="col-4">
+                                <div class="input-form-label header-form header-form-orange margin-top-20">City</div>
+                                <input type="text" class="input full-width" placeholder="e.g. Sydney">
+                            </div>
+
+                            <!--
+                                 Another good idea is to have the country be selected as select box
+                                 and dynamically populate city based on country selected
+                                 However, in order to populate said inputs dynamically, we would require
+                                 javascript.
+                             -->
+                            <div class="col-4">
+                                <div class="input-form-label header-form header-form-orange margin-top-20">Country</div>
+                                <input type="text" class="input full-width" placeholder="e.g. Australia">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Submit form -->
+                    <section class="form-submit-section">
+                        <div class="line-separator"></div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert">
+                                    The <u>shipping and billing address</u> provided <b>must match</b>. By checking yes, you are
+                                    confirming that the information supplied above matches.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-contract-confirmation">
+                            <div class="col-12">
+                                <div class="notification notification-light-silver">
+                                    <div class="inline-block align-middle margin-right-20">
+                                        <b>Yes</b><i>, I have verified that the shipping and billing address provided is correct and matches.</i>
+                                    </div>
+                                    <label class="checkbox-square align-middle block center-block margin-top-20" >
+                                        <input type="checkbox" class="input hide">
+                                        <div class="checkbox-square-container"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" class="btn btn-submit" value="Register">
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+            <!-- Credit Card Form -->
+            <div class="tab-contents" data-target="credit-card-form">
+                <section class="form">
+                    <h2 class="header">Payment - Credit Card </h2>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-form-label header-form header-form-orange">Cardholder's Full Name</div>
+                            <input type="text" class="input full-width" placeholder="e.g. John Smith">
+                        </div>
+                        <div class="col-6">
+                            <div class="input-form-label header-form header-form-orange">Credit Card No.</div>
+                            <input type="text" class="input full-width" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="input-form-label header-form header-form-orange margin-top-20">CSV code</div>
+                            <!--
+                                Because number inputs starting with zero are considered valid, we will
+                                leave this as a text and try parsing int on the server and client
+                                to see if it is a valid number. On the client, a simple isNumber check should do.
+                             -->
+                            <input type="text" class="input full-width" placeholder="e.g. 019" maxlength="3">
+                        </div>
+                        <div class="col-4">
+                            <div class="input-form-label header-form header-form-orange margin-top-20">Expiration Month</div>
+                            <!--
+                               Months on the other hand, can be hard coded, since
+                               number of months in a year will most likely not change
+                               Unless you want to apply I18N
+                            -->
+                            <select class="input dropdown full-width" id="cc-expiration-month">
+                                <option value="0">1</option>
+                                <option value="1">2</option>
+                                <option value="2">3</option>
+                                <option value="3">4</option>
+                                <option value="4">5</option>
+                                <option value="5">6</option>
+                                <option value="6">7</option>
+                                <option value="7">8</option>
+                                <option value="8">9</option>
+                                <option value="9">10</option>
+                                <option value="10">11</option>
+                                <option value="11">12</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-form-label header-form header-form-orange margin-top-20">Expiration Year</div>
+                            <!--
+                               Not supposed to use JavaScript here, but instead of creating 15 options,
+                               I just wrote some simple JavaScript code to generate the elements.
+
+                               Note that the starting year should Ideally be provided from the server, because
+                               the client's date might be set erroneously, possibly resulting in erroneous option values.
+                            -->
+                            <select class="input dropdown full-width" id="cc-expiration-year">
+                                <!-- Generated Dynamically using JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-submit btn-orange" value="Submit">
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    (function() {
+
+        var CREDIT_CARD_SELECT_ITEM_COUNT = 15;
+
+        function generateCreditCardExpirationMonths(selectItemCount) {
+
+            var currentYear = new Date().getFullYear();
+            var htmlString;
+            // Will stop at 0 since javascript supports type coercion
+            while (selectItemCount--) {
+                // Append string right away
+                htmlString += "<option value='"+currentYear+"'>"+currentYear+"</option>";
+                currentYear++;
+            }
+            // DOM manipulation is costly. Therefore,
+            // append in one go, since append inside of loop is costly
+            document.getElementById("cc-expiration-year").insertAdjacentHTML("afterbegin", htmlString);
+        }
+
+        generateCreditCardExpirationMonths(CREDIT_CARD_SELECT_ITEM_COUNT);
+
+    })();
+</script>
+</html>

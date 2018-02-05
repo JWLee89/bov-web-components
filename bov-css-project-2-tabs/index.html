@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Assignment 2 - Tabs</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+    <!-- Begin tabs -->
+    <div class="tabComponent">
+        <!-- Tab 1 -->
+        <input type="radio" name="tab-component" id="home-decor" checked>
+        <label for="home-decor">Home Decor</label>
+
+        <!-- Tab 2 -->
+        <input type="radio" name="tab-component" id="furniture">
+        <label for="furniture">Furniture</label>
+
+        <!-- Tab 3 -->
+        <input type="radio" name="tab-component" id="kitchen">
+        <label for="kitchen">Kitchen</label>
+
+        <!-- Tab 4 -->
+        <input type="radio" name="tab-component" id="clearance">
+        <label for="clearance">Clearance</label>
+
+        <!-- Contents -->
+        <div class="tabs-content-container">
+            <div class="tab-contents" data-target="home-decor">
+                Home decorations right here
+            </div>
+            <div class="tab-contents" data-target="furniture">
+                Furniture stuff ...
+            </div>
+            <div class="tab-contents" data-target="kitchen">
+                Kitchen stuff ...
+            </div>
+            <div class="tab-contents" data-target="clearance">
+                Red hot deals at affordable prices. Check out our clearance section for more details.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
