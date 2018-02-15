@@ -126,8 +126,11 @@ input[type=radio]#login-form:checked ~ .tabs-content-container > .tab-contents[d
     background-color: #e7a61a;
 }
 
-.input-form-label {
+.input, .input-form-label {
     font-size: 1.2em;
+}
+
+.input-form-label {
     font-weight: 500;
     letter-spacing: 0.05em;
     line-height: 1.6em;
@@ -214,7 +217,7 @@ input[type=radio]#login-form:checked ~ .tabs-content-container > .tab-contents[d
     font-weight: 600;
     height: 26px;
     left: 4px;
-    line-height: 1.4em;
+    line-height: 1.65em;
     position: absolute;
     text-align: center;
     transition: all 0.3s;

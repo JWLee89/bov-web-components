@@ -105,6 +105,10 @@ sup.cent {
     text-decoration: none;
 }
 
+.item-container-content a:hover {
+    text-decoration: underline;
+}
+
 .item-heading {
     padding-bottom: 10px;
 }

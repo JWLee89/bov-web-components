@@ -197,8 +197,12 @@ input[type=radio]#credit-card-form:checked ~ .tabs-content-container > .tab-cont
     background-color: #e7a61a;
 }
 
-.input-form-label {
+
+.input, .input-form-label {
     font-size: 1.2em;
+}
+
+.input-form-label {
     font-weight: 500;
     line-height: 1.6em;
     letter-spacing: 0.05em;
