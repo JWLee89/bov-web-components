@@ -81,3 +81,22 @@
     padding: 20px;
     width: 100%;
 }
+
+/* Css blink to highlight error message */
+.error-msg {
+    animation: highlight-error linear 2s infinite;
+    color: indianred;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes highlight-error {
+    0%  { text-decoration: underline; }
+    33% { text-decoration: none; }
+    66% { text-decoration: underline;  }
+    100% { text-decoration: none; }
+}
