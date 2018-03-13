@@ -8,8 +8,11 @@
 <body>
     <!-- Begin calculator -->
     <div class="calculator-container">
+        <div class="row hidden text-center">
+            <div class="error-msg">Invalid input!</div>
+        </div>
         <div class="row">
-            <input type="text" class="calculator-input calculator-border text-right"/>
+            <input type="text" disabled class="calculator-input calculator-border text-right"/>
         </div>
         <div class="row text-center ">
             <label class="calculator-column non-number-column calculator-border">
@@ -21,7 +24,7 @@
                 <input type="radio" name="calculator-input">
             </label>
             <label class="calculator-column non-number-column calculator-border">
-                %
+                +/-
                 <input type="radio" name="calculator-input">
             </label>
             <label class="calculator-column non-number-column calculator-border">
@@ -43,7 +46,7 @@
                 <input type="radio" name="calculator-input">
             </label>
             <label class="calculator-column calculator-border non-number-column">
-                X
+                ×
                 <input type="radio" name="calculator-input">
             </label>
         </div>
@@ -103,4 +106,5 @@
         </div>
     </div>
 </body>
+<script src="main.js"></script>
 </html>
