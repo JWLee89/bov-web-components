@@ -352,7 +352,6 @@
      * Initializaltion logic
      * */
     function init() {
-        // Step 1. Initialize the keypad
         initializeKeypad();
     }
     init();
