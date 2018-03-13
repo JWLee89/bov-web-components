@@ -20,6 +20,7 @@ body {
 .item-list, .shopping-cart {
     max-width: 1024px;
     margin: 50px auto;
+    transition: all 0.6s ease-in-out;
 }
 
 .product-img {
@@ -33,6 +34,13 @@ sup.currency {
 sup.cent {
     text-decoration: underline;
     margin-left: 3px;
+}
+
+/**
+ * Toggle up/
+ */
+.shopping-cart-list-section {
+    transition: opacity 1s ease-in-out;
 }
 
 .shopping-cart-header, .shopping-list-header {
@@ -127,6 +135,79 @@ sup.cent {
 
 .item-container-content-body {
 }
+
+.block {
+    display: block;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.hidden {
+    display: none;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+/**
+ * For the built-in modal
+ */
+.overlay {
+    left: 0;
+    height: 100%;
+    top: 0;
+    width: 100%;
+    background-color: rgba(44,44,44, 0.65);
+    z-index: 800;
+}
+
+.modal {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid silver;
+    left: 35%;
+    margin: 15px auto;
+    max-height: 450px;
+    max-width: 500px;
+    top: 10%;
+    z-index: 1000;
+}
+
+.alert {
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-success{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.modal-heading {
+    background-color: #ededee;
+    padding: 15px;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.modal-footer {
+    border-top: 1px solid #efefef;
+    padding: 15px;
+}
+
 
 /*
    styles for Multi-line '...'
@@ -295,6 +376,12 @@ sup.cent {
     cursor: pointer;
     padding: 15px;
     transition: all 0.5s ease-in-out;
+}
+
+.btn-pill {
+    border-radius: 6px;
+    padding: 6px 12px;
+    border: 1px solid #f1f2f3;
 }
 
 .btn-lg {
