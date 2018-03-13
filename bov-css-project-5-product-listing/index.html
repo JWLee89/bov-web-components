@@ -23,18 +23,38 @@
 
     <!-- Begin shopping cart item list -->
     <section class="shopping-cart">
-        <h2 class="shopping-cart-header">Your Shopping Cart</h2>
+        <h2 class="shopping-cart-header clear-fix">
+            Your Shopping Cart
+            <button id="toggleShoppingCart" class="btn btn-pill float-right">
+                &#9776;&nbsp;Hide
+            </button>
+        </h2>
         <div id="shopping-cart-list-section">
             <!-- Contents generated dynamically via handlebars -->
         </div>
     </section>
+
+    <!-- Modal -->
+    <section id="deleteModal" class="modal fixed hidden">
+        <h2 class="modal-heading">Remove item from cart?</h2>
+        <div class="modal-body">
+            <div class="alert alert-warning">Are you sure that you wish to remove this from your cart?</div>
+        </div>
+        <div class="modal-footer text-right">
+            <button class="btn btn-red close-modal">Close</button>
+            <button class="btn btn-blue ok-confirm remove-from-cart">Ok</button>
+        </div>
+    </section>
+
+    <!-- Hidden overlay shown when displaying messages -->
+    <div id="modalOverlay" class="overlay fixed hidden"></div>
 </body>
 <!-- Import for handlebars -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 <!-- Template for item list -->
 <script id="item-list-template" type="text/x-handlebars-template">
     {{#each this}}
-        <div class="item-container">
+        <div class="item-container" id="{{ concat 'shoppingListRow' id}}" data-id="{{id}}">
             <div class="row">
                 <div class="col-3">
                     <img class="product-img inline-block" src="{{ imgUrl }}" alt="Effective Java 3rd Edition"/>
@@ -52,7 +72,7 @@
                                 </span>
                             </div>
                             <div class="add-to-cart-section float-right">
-                                <button class="btn btn-add-to-cart">Add to Cart</button>
+                                <button class="btn btn-add-to-cart" data-id="{{id}}">Add to Cart</button>
                             </div>
                             <div class="clear-fix"></div>
                         </div>
@@ -75,10 +95,10 @@
 <!-- Template for item list -->
 <script id="shopping-cart-list-template" type="text/x-handlebars-template">
     {{#each this}}
-    <div class="item-container">
+    <div class="item-container" id="{{ concat 'shoppingCartRow' id}}" data-id="{{id}}">
         <div class="row">
             <div class="col-3">
-                <img class="product-img inline-block" src="{{ imgUrl }}" alt="Effective Java 3rd Edition"/>
+                <img class="product-img inline-block" src="{{ imgUrl }}"/>
             </div>
             <div class="col-9 padding-left-20">
                 <div class="row bottom-border">
@@ -89,10 +109,9 @@
                         {{ price }}
                     </div>
                     <div class="col-2 align-middle padding-15">
-                        <input type="number" class="input full-width" value="{{ quantity }}">
+                        <input type="number" data-id="{{id}}" class="input qty-input full-width" value="{{ quantity }}">
                     </div>
                     <div class="col-2 align-middle padding-15">
-                        <!-- Should later calculate the total, but for now ... -->
                         {{ price }}
                     </div>
                 </div>
@@ -101,12 +120,16 @@
                         <h3>Add promo code</h3>
                     </div>
                     <div class="col-4 align-middle padding-15 text-center">
-                        <input type="text" class="input full-width" placeholder="XX-XX-XXXX">
+                        <input type="text" data-id="{{id}}" class="input coupon-input full-width" placeholder="XXXXXXXX">
+                        <!-- Failure coupon msg -->
+                        <div class="alert coupon-msg alert-warning hidden">Invalid code. Try again.</div>
+                        <!-- Success coupon msg -->
+                        <div class="alert coupon-msg alert-success hidden">Valid code!</div>
                     </div>
                     <div class="col-4 align-middle padding-15 text-center">
                         <!-- Later on, we can add some extended styling or some font awesome
                              to make it look neater. -->
-                        <button class="btn btn-red">&#8854;&nbsp; Remove From Cart</button>
+                        <button class="btn btn-remove btn-red" data-id="{{id}}">&#8854;&nbsp; Remove From Cart</button>
                     </div>
                 </div>
             </div>
@@ -115,55 +138,81 @@
     {{/each}}
     <!-- Total and checkout button -->
     <div class="item-container">
-        <div class="row">
-            <div class="col-12 padding-left-20">
-                <div class="row bottom-border">
-                    <div class="col-8 align-middle padding-15 text-right">
-                        <div style="width: 100%; height: 200px; padding: 15px;
-                        background-color: #f1f2f3; border-radius:
-                         8px; text-align: center; font-size: 2em;">Content Placeholder</div>
-                    </div>
-                    <div class="col-4 align-middle padding-15 text-right">
-
-                        <table class="table pricing-table">
-                            <tr>
-                                <td>Shopping Cart Item Total Price</td>
-                                <td>{{{ printPrice '$1337.11' }}}</td>
-                            </tr>
-                            <tr>
-                                <td>Shipping fees</td>
-                                <td>{{{ printPrice '0.00' }}}</td>
-                            </tr>
-                            <tr>
-                                <td>Taxes</td>
-                                <td>{{{ printPrice '$133.71' }}}</td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
-                                <td>{{{ printPrice '$1470.82' }}}</td>
-                            </tr>
-                        </table>
-                    </div>
+        <div class="row bottom-border">
+            <div class="col-8 align-middle padding-15 text-right">
+                <div style="width: 100%; height: 160px; padding: 15px;
+                background-color: #f1f2f3; border-radius:
+                 8px; text-align: center; font-size: 2em;">Content Placeholder</div>
+                <div class="col-6 align-middle padding-15 text-center">
+                    <h3>Add promo code</h3>
+                </div>
+                <div class="col-6 align-middle padding-15 text-center">
+                    <input type="text" data-id="{{id}}" class="input total-coupon-input full-width" placeholder="XXXXXXXX">
+                    <!-- Failure coupon msg -->
+                    <div class="alert coupon-msg alert-warning hidden">Invalid code. Try again.</div>
+                    <!-- Success coupon msg -->
+                    <div class="alert coupon-msg alert-success hidden">Valid code!</div>
+                </div>
+            </div>
+            <div class="col-4 align-middle padding-15 text-right">
+                <table class="table pricing-table">
+                    <tr>
+                        <td>Shopping Cart Item Total Price</td>
+                        <td id="totalPrice">{{{ getTotalPrice }}}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping fees</td>
+                        <td id="totalShipping">{{{ getTotalShipping }}}</td>
+                    </tr>
+                    <tr>
+                        <td>Taxes</td>
+                        <td id="totalTax">{{{ getTotalTax }}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td id="grandTotal">{{{ getGrandTotal }}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row bottom-border">
+                <div class="col-6 align-middle padding-15 text-right">
+                    <button class="btn btn-lg btn-blue">&rarr;&nbsp;Continue Shopping</button>
+                </div>
+                <div class="col-6 align-middle padding-15 text-right">
+                    <button class="btn btn-checkout">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 padding-left-20">
-                <div class="row bottom-border">
-                    <div class="col-6 align-middle padding-15 text-right">
-                        <button class="btn btn-lg btn-blue">&rarr;&nbsp;Continue Shopping</button>
-                    </div>
-                    <div class="col-6 align-middle padding-15 text-right">
-                        <button class="btn btn-checkout">Proceed to Checkout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </script>
 <script type="text/javascript">
-
+    /**
+     * NOTE: this entire project will need to be refactored
+     * in a later time when user=requirements are revealed
+     * to its fullest and when a backend along with required
+     * entities are revealed.
+     *
+     * The code below is purely for displaying functionality.
+     *
+     * I am assuming that this will be re-written entirely
+     * whether it be with a library that I am working on,
+     * or with a frontend MVC or MVVM framework like Vue or React.
+     *
+     * For now, getting the interaction working is fine.
+     * */
+    /**
+     * Begin shopping page-related scripts
+     * ================================================
+     * */
     (function() {
+
+        /**
+         * Handlebars-related logic
+         * =============================
+         * */
+        // sample tax rate of 10%
+        var TAX_RATE = 0.1;
 
         /**
          * @param {Object|Array} data The data we will be templating
@@ -179,10 +228,12 @@
             targetEl.innerHTML = template(data);
         }
 
-        // For handling US dollar inputs
-        // Other currencies might need a different approach
-        // therefore, this is just for show
-        // Price is a string, not a float or double
+        /** For handling US dollar inputs
+         * Other currencies might need a different approach
+         * therefore, this is just for show
+         * Price is a string, not a float or double
+         * @param {String} priceStr The price string E.g. "$49.11"
+         * */
         Handlebars.registerHelper("printPrice", function(price) {
             var totalPriceList = price.split(".");
             var dollar = "<sup class='currency'>" + totalPriceList[0][0] + "</sup>" + totalPriceList[0].substr(1);
@@ -194,14 +245,82 @@
         });
 
         /**
-         * item list
+         * If less than 5 items, free
+         * If more than 5, $10
+         * 10 or more, $20.
+         * Just some made up logic
+         * @return {Number} the shipping fee
+         * */
+        function getShippingPrice() {
+            var count = getTotalQty();
+            if (count > 10) {
+                return 20;
+            } else if (count <= 10 && count > 4) {
+                return 10;
+            } else {
+                return 0;
+            }
+        }
+
+        /**
+         * Get total number of items inside of cart.
+         * */
+        function getTotalQty() {
+            var qty = 0;
+            for (var i = 0; i < shoppingCartList.length; i++) {
+                qty += shoppingCartList[i].quantity;
+            }
+            return qty;
+        }
+
+        // Get the total price
+        Handlebars.registerHelper("getTotalPrice", function() {
+            return Handlebars.helpers.printPrice("$" + calculateTotalCost().toFixed(2));
+        });
+
+        // Total shipping price
+        Handlebars.registerHelper("getTotalShipping", function() {
+            return Handlebars.helpers.printPrice("$" + getShippingPrice().toFixed(2));
+        });
+
+        // Tax
+        Handlebars.registerHelper("getTotalTax", function() {
+            return Handlebars.helpers.printPrice("$" + calculateTax(calculateTotalCost(), TAX_RATE).toFixed(2));
+        });
+
+        // Grand total after adding total price, tax and shipping
+        Handlebars.registerHelper("getGrandTotal", function() {
+            var productPrice = calculateTotalCost();
+            return Handlebars.helpers.printPrice("$" + (productPrice + getShippingPrice() + calculateTax(productPrice, TAX_RATE)).toFixed(2));
+        });
+
+        // For basic string concatenation
+        Handlebars.registerHelper('concat', function() {
+            var outStr = '', key;
+            for(key in arguments){
+                if(typeof arguments[key] !== 'object'){
+                    outStr += arguments[key];
+                }
+            }
+            return outStr;
+        });
+
+        /**
+         * End Handlebars-related logic
+         * =============================
+         * */
+
+        /**
+         * item list - Dummy data
          * =============================
          * */
         var itemList = [
             {
-                productName: "Effective Java (3rd Edition)",
+                id: 1,
+                typeId: 1,
+                productName: "Java Concurrency in action",
                 maker: "Joshua Blotch",
-                price: "$49.11",
+                price: "$38.50",
                 quantity: 1,
                 imgUrl: "http://via.placeholder.com/250x250",
                 // String concatenation will be removed when we start working with actual data
@@ -216,6 +335,8 @@
                 "                        Morbi ut dictum ligula, sed venenatis est."
             },
             {
+                id: 2,
+                typeId: 2,
                 productName: "Plugable USB 3.0 Universal Laptop Docking Station for Windows (Dual Video HDMI & DVI / VGA, Gigabit Ethernet, Audio, 6 USB Ports)",
                 maker: "Pluggable",
                 price: "$102.31",
@@ -233,6 +354,8 @@
                 "                        Morbi ut dictum ligula, sed venenatis est."
             },
             {
+                id: 3,
+                typeId: 1,
                 productName: "JavaScript - The Good Parts",
                 maker: "Douglas Crockford",
                 price: "$49.11",
@@ -242,6 +365,8 @@
                 description: "A very good book written by Douglas Crockford. A must read for intermediate JavaScript developers."
             },
             {
+                id: 4,
+                typeId: 1,
                 productName: "Effective Java (2nd Edition)",
                 maker: "Joshua Blotch",
                 price: "$49.11",
@@ -251,6 +376,84 @@
                 description: "Slightly outdated, but still worth a read. Remember that it will not contain references or mention some of the newer features introduced in Java 7+."
             },
             {
+                id: 5,
+                typeId: 1,
+                productName: "Designing Data-Intensive Applications",
+                maker: "Martin Kleppmann",
+                price: "43.00",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                id: 6,
+                typeId: 1,
+                productName: "SQL Tuning",
+                maker: "Dan Tow",
+                price: "29.90",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                id: 7,
+                typeId: 1,
+                productName: "C Programming in Action (Second Edition)",
+                maker: "K.N. King",
+                price: "$55.00",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                id: 8,
+                typeId: 1,
+                productName: "Design Patterns: Elements of Reusable Object-Oriented Software",
+                maker: "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+                price: "$27.68",
+                quantity: 1,
+                imgUrl: "http://via.placeholder.com/250x250",
+                // String concatenation will be removed when we start working with actual data
+                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+                "                        Morbi ut dictum ligula, sed venenatis est."
+            },
+            {
+                id: 9,
+                typeId: 1,
                 productName: "Effective Java (3rd Edition)",
                 maker: "Joshua Blotch",
                 price: "$49.11",
@@ -268,76 +471,10 @@
                 "                        Morbi ut dictum ligula, sed venenatis est."
             },
             {
-                productName: "Effective Java (3rd Edition)",
-                maker: "Joshua Blotch",
-                price: "$49.11",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x250",
-                // String concatenation will be removed when we start working with actual data
-                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
-                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
-                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
-                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
-                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
-                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
-                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
-                "                        Morbi ut dictum ligula, sed venenatis est."
-            },
-            {
-                productName: "Effective Java (3rd Edition)",
-                maker: "Joshua Blotch",
-                price: "$49.11",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x250",
-                // String concatenation will be removed when we start working with actual data
-                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
-                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
-                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
-                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
-                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
-                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
-                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
-                "                        Morbi ut dictum ligula, sed venenatis est."
-            },
-            {
-                productName: "Effective Java (3rd Edition)",
-                maker: "Joshua Blotch",
-                price: "$49.11",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x250",
-                // String concatenation will be removed when we start working with actual data
-                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
-                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
-                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
-                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
-                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
-                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
-                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
-                "                        Morbi ut dictum ligula, sed venenatis est."
-            },
-            {
-                productName: "Effective Java (3rd Edition)",
-                maker: "Joshua Blotch",
-                price: "$49.11",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x250",
-                // String concatenation will be removed when we start working with actual data
-                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
-                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
-                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
-                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
-                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
-                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
-                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
-                "                        Morbi ut dictum ligula, sed venenatis est."
-            },
-            {
-                productName: "Effective Java (3rd Edition)",
-                maker: "Joshua Blotch",
+                id: 10,
+                typeId: 1,
+                productName: "Introduction to Algorithms, 3rd Edition (MIT Press)",
+                maker: "Thormas H. Cormen, Charles E. Leiserson",
                 price: "$49.11",
                 quantity: 1,
                 imgUrl: "http://via.placeholder.com/250x250",
@@ -358,60 +495,663 @@
          * Shopping list
          * =============================
          * */
-        var shoppingCartList = [
-            {
-                productName: "Effective Java (3rd Edition)",
-                maker: "Joshua Blotch",
-                price: "$49.11",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x250",
-                // String concatenation will be removed when we start working with actual data
-                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
-                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
-                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
-                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
-                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
-                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
-                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
-                "                        Morbi ut dictum ligula, sed venenatis est."
-            },
-            {
-                productName: "Plugable USB 3.0 Universal Laptop Docking Station for Windows (Dual Video HDMI & DVI / VGA, Gigabit Ethernet, Audio, 6 USB Ports)",
-                maker: "Pluggable",
-                price: "$102.31",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x350",
-                // String concatenation will be removed when we start working with actual data
-                description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-                "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
-                "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
-                "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
-                "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
-                "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
-                "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
-                "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
-                "                        Morbi ut dictum ligula, sed venenatis est."
-            },
-            {
-                productName: "JavaScript - The Good Parts",
-                maker: "Douglas Crockford",
-                price: "$49.11",
-                quantity: 1,
-                imgUrl: "http://via.placeholder.com/250x250",
-                // String concatenation will be removed when we start working with actual data
-                description: "A very good book written by Douglas Crockford. A must read for intermediate JavaScript developers."
-            }
-        ];
 
+        // List containing used coupon
+        var usedCouponList = [];
+
+        var validCouponValues = {
+            "10OFF": {
+                discount: 10
+            }   // 10% off
+        };
+
+        // Total order coupons
+        var totalOrderCoupons = {
+            "5OFF": {
+                typeId: -1,
+                discount: 5 // 5% off all items
+            },
+            "15EQUIP": {    // 15% off equipments
+                typeId: 2,
+                discount: 15
+            }
+        };
+
+        var shoppingCartList = [];
+
+        // Shopping cart list section
         var itemListElement = document.getElementById("shopping-list-section");
         var shoppingCartListElement = document.getElementById("shopping-cart-list-section");
 
-        // Generate HTML for item list
-        initializeHandlebarsTemplate(itemList, itemListElement, "item-list-template");
+        // dummy sample shopping car data
+        shoppingCartList.push({
+            id: 9,
+            typeId: 1,
+            productName: "Effective Java (3rd Edition)",
+            maker: "Joshua Blotch",
+            price: "$49.11",
+            quantity: 1,
+            imgUrl: "http://via.placeholder.com/250x250",
+            // String concatenation will be removed when we start working with actual data
+            description: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
+            "                        In rhoncus nulla ut quam cursus commodo non a ante. Quisque volutpat congue ante\n" +
+            "                        id pellentesque. Suspendisse sit amet consequat magna. Quisque mattis varius lacinia.\n" +
+            "                        Mauris iaculis, odio quis aliquet finibus, augue velit suscipit arcu, a\n" +
+            "                        hendrerit nibh odio vel nunc. Morbi ut elit volutpat dolor porta eleifend condimentum\n" +
+            "                        ac ante. Aenean blandit nulla sit amet mi euismod volutpat. Nulla aliquam tempus lectus,\n" +
+            "                        ac volutpat velit interdum vitae. Nullam tempor nulla nec lectus sollicitudin euismod ac at libero.\n" +
+            "                        Nam a metus ac risus sagittis efficitur eget eu lacus. Nam feugiat dignissim elit ac pharetra.\n" +
+            "                        Morbi ut dictum ligula, sed venenatis est."
+        });
 
-        // Generate HTML for shopping cart list
-        initializeHandlebarsTemplate(shoppingCartList, shoppingCartListElement, "shopping-cart-list-template");
+        /**
+         * Constants and utility methods
+         * =======================================
+         * */
+
+        /**
+         * In the real world, would not store coupon values like this.
+         * Otherwise, everybody would be getting discounts right?
+         * @return {Number|undefined}
+         * */
+        function getCouponDiscount(couponCode) {
+           if (couponCode in validCouponValues) {
+                return validCouponValues[couponCode];
+           }
+        }
+
+        /**
+         * Apply total discount to purchases
+         * */
+        function getTotalOffCoupon(couponCode) {
+            if (couponCode in totalOrderCoupons) {
+                return totalOrderCoupons[couponCode];
+            }
+        }
+
+        /**
+         * Event Listener for validating
+         * and applying coupon discounts
+         * row coupon (for each item)
+         * */
+        function validateRowCoupon(evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var couponCode = evt.target.value.trim();
+            var incorrectMsg = evt.target.nextElementSibling;
+            var correctMsg = incorrectMsg.nextElementSibling;
+            var coupon = getCouponDiscount(couponCode);
+            var invalidCouponMsg = 'Invalid code. Try again.';
+
+            var productId = Number(evt.target.getAttribute("data-id"));
+            var usedCoupon = findUsedCoupon(couponCode, productId);
+
+            // CHECK if coupon is useable by checking available coupons
+            // and the list of currently used coupons
+            var useableCoupon = coupon && !usedCoupon;
+            // If coupon exists
+            if (useableCoupon) {
+                // Add coupon if it is not used
+                incorrectMsg.style.display = 'none';
+                incorrectMsg.innerHTML = invalidCouponMsg;
+                correctMsg.style.display = 'block';
+                addDiscount(evt, coupon);
+                // Coupon code is correct but is being used elsewhere
+            } else if (coupon && usedCoupon) {
+                incorrectMsg.innerHTML = 'Coupon is used elsewhere';
+                incorrectMsg.style.display = 'block';
+                correctMsg.style.display = 'none';
+                incorrectMsg.innerHTML = invalidCouponMsg;
+            } else if (couponCode === '') {
+                incorrectMsg.style.display = 'none';
+                correctMsg.style.display = 'none';
+                incorrectMsg.innerHTML = invalidCouponMsg;
+                removeDiscount(evt)
+            } else {
+                incorrectMsg.style.display = 'block';
+                correctMsg.style.display = 'none';
+                incorrectMsg.innerHTML = invalidCouponMsg;
+                removeDiscount(evt);
+            }
+            // Trigger event to propagate changes
+            Array.prototype.forEach.call(document.querySelectorAll('.qty-input'), function(input) {
+                input.dispatchEvent(new Event('input'));
+            });
+
+            if (useableCoupon) {
+                usedCouponList.push({ couponCode: couponCode, productId: productId});
+            } else {
+                removeUsedCouponFromList(productId);
+            }
+        }
+
+        /**
+         * Lookup used coupon for validation purposes
+         * @param {String} couponCode the code entered by the user
+         * @param {Number} productId the id of the current product
+         * */
+        function findUsedCoupon(couponCode, productId) {
+            for (var i = 0; i < usedCouponList.length; i++) {
+                var coupon = usedCouponList[i];
+                if (coupon.couponCode === couponCode && coupon.productId !== productId) {
+                    return usedCouponList[i];
+                }
+            }
+        }
+
+        /**
+         * Remove coupon from used list
+         * */
+        function removeUsedCouponFromList(productId) {
+            for (var i = 0; i < usedCouponList.length; i++) {
+                var coupon = usedCouponList[i];
+                if (coupon.productId === productId) {
+                    console.log("removing")
+                    // Remove element
+                    usedCouponList.splice(i, 1);
+                }
+            }
+        }
+
+        /**
+         * Coupon validation for totals
+         * */
+        function validateTotalCoupons(evt) {
+            var couponRowText = evt.target.value.trim();
+            var incorrectMsg = evt.target.nextElementSibling;
+            var correctMsg = incorrectMsg.nextElementSibling;
+            var coupon = getTotalOffCoupon(couponRowText);
+            // If coupon exists
+            if (coupon) {
+                incorrectMsg.style.display = 'none';
+                correctMsg.style.display = 'block';
+                addDiscount(evt, coupon, true);
+            } else if (couponRowText === '') {
+                incorrectMsg.style.display = 'none';
+                correctMsg.style.display = 'none';
+                removeDiscount(evt, true)
+            } else {
+                incorrectMsg.style.display = 'block';
+                correctMsg.style.display = 'none';
+                removeDiscount(evt, true);
+            }
+            // Trigger event to propagate changes
+            Array.prototype.forEach.call(document.querySelectorAll('.qty-input'), function(input) {
+                input.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Self-explanatory
+        function addDiscount(evt, coupon , isTotalDiscount) {
+            var key = isTotalDiscount ? "totalDiscount" : "discount";
+            var id = Number(evt.target.getAttribute("data-id"));
+            var index;
+            // Apply discount to all items
+            if (isTotalDiscount) {
+                // apply discount to all
+                for (var i = 0; i < shoppingCartList.length; i++) {
+                    shoppingCartList[i][key] = coupon.discount;
+                }
+            } else if ((index = indexOf(shoppingCartList, id)) !== -1) {
+                shoppingCartList[index][key] = coupon.discount;
+            }
+        }
+
+        // Self-explanatory
+        function removeDiscount(evt, isTotalDiscount) {
+            var key = isTotalDiscount ? "totalDiscount" : "discount";
+            var id = Number(evt.target.getAttribute("data-id"));
+            var index = indexOf(shoppingCartList, id);
+            if (isTotalDiscount) {
+                // apply discount to all
+                for (var i = 0; i < shoppingCartList.length; i++) {
+                    shoppingCartList[i][key] = 0;
+                }
+            } else if ((index = indexOf(shoppingCartList, id)) !== -1) {
+                shoppingCartList[index][key] = 0;
+            }
+        }
+
+        /**
+         * Calculate the total cost of items purchased.
+         * If coupon is correct, cut off percentage
+         * */
+        function calculateTotalCost() {
+            var totalCost = 0;
+            if (shoppingCartList.length) {
+                var hasTotalCostDiscount = "totalDiscount" in shoppingCartList[0];
+                for (var i = 0; i < shoppingCartList.length; i++) {
+                    var item = shoppingCartList[i];
+                    totalCost += getSinglePrice(item) * item.quantity;
+                }
+                // Compare and use the cheaper of the two
+                // If total discount exists, but single discount doesn't
+                // wiil return total discount
+                if (hasTotalCostDiscount) {
+                    var otherTotalCost = 0;
+                    for (var i = 0; i < shoppingCartList.length; i++) {
+                        var item = shoppingCartList[i];
+                        otherTotalCost += getSinglePrice(item, true) * item.quantity;
+                    }
+                    // Return one that has total lower cost
+                    return otherTotalCost > totalCost ? totalCost : otherTotalCost;
+                }
+            }
+            return totalCost;
+        }
+
+        /**
+         *
+         * @param {Object} item an item on the shopping cary
+         * @param {Boolean} isTotalDiscountCoupon Set to true, if it is a total discount coupon
+         * @return {Number} the price of the items (factoring in possible discount)
+         * */
+        function getSinglePrice(item, isTotalDiscountCoupon) {
+            var key = isTotalDiscountCoupon ? 'totalDiscount' : 'discount';
+            var cost = parsePrice(item.price);
+            // Apply discount if applicable
+            if (key in item) {
+                cost = cost * (1 - (item[key] * 0.01));
+            }
+            return cost;
+        }
+
+        /**
+         * @param {Number} totalPrice The total cost of items inside of the shopping cart.
+         * @param {Number} taxRate The fixed tax rate applied to the goods. May differ based on country and state.
+         * @return {Number} Total tax, given total price
+         * */
+        function calculateTax(totalPrice, taxRate) {
+            if (typeof totalPrice !== 'number') {
+                throw new Error("A number must be passed into calculateTax(). " + totalPrice + " was passed in");
+            }
+            return totalPrice * taxRate;
+        }
+
+        /**
+         * @param {String} priceStr The price string (currently in dollars). E.g. "$49.11"
+         */
+        function parsePrice(priceStr) {
+            if (isNaN(Number(priceStr.charAt(0)))) {
+                return parseFloat(priceStr.substring(1));
+            }
+            return parseFloat(priceStr);
+        }
+
+        /**
+         * Create a fresh new copy of the object passed in
+         * Note that it does not make a deep copy of nested objects
+         * or items that are call by reference.
+         * @param {Object} obj the object to copy.
+         * @return {Object} a new copy of the passed in object
+         * */
+        function copyObject(obj) {
+            var key, result = {};
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    result[key] = obj[key];
+                }
+            }
+            return result;
+        }
+
+        /**
+         * Event Listeners - Will replace this
+         * once i have a working implementation
+         * of the basic MVC framework.
+         * =======================================
+         * */
+
+        // Initialize shopping list handlebars template
+        function initializeShoppingListTemplate() {
+            initializeHandlebarsTemplate(itemList, itemListElement, "item-list-template");
+        }
+
+        // Initialize Shopping cart list template.
+        function initializeShoppingCartListTemplate() {
+            initializeHandlebarsTemplate(shoppingCartList, shoppingCartListElement, "shopping-cart-list-template");
+        }
+
+        /**
+         * Change the quantity of items purchased
+         * */
+        function changeQty(evt) {
+            var el = evt.target;
+            var qty = Number(el.value);
+            var id = Number(el.getAttribute("data-id"));
+            var index = indexOf(shoppingCartList, id);
+
+            // Give users option to remove
+            if (qty === 0) {
+                confirmDelete(evt);
+                // Prevent item from falling below 1
+                // before being deleted
+                el.stepUp(1);
+                return;
+            } else {
+                // Update object property if found ...
+                if (index  !== -1) {
+                    shoppingCartList[index].quantity = qty;
+                    // Emit change - the inefficient way for now
+
+                    // Totals for entire cart
+                    document.getElementById("totalPrice").innerHTML     = Handlebars.helpers.getTotalPrice();
+                    document.getElementById("totalTax").innerHTML       = Handlebars.helpers.getTotalTax();
+                    document.getElementById("totalShipping").innerHTML  = Handlebars.helpers.getTotalShipping();
+                    document.getElementById("grandTotal").innerHTML     = Handlebars.helpers.getGrandTotal();
+                    // Change total price
+                    var totalPriceEl = el.parentElement.nextElementSibling;
+                    var singlePriceEl = el.parentElement.previousElementSibling;
+                    var singlePrice = getSinglePrice(shoppingCartList[index]);
+                    // Single price
+                    singlePriceEl.innerHTML = "$" + singlePrice.toFixed(2);
+                    // Total
+                    totalPriceEl.innerHTML = "$" + (qty * singlePrice).toFixed(2);
+                }
+            }
+        }
+
+        var deleteModalEl = document.getElementById("deleteModal");
+        /**
+         * Perform delete if needed
+         * */
+        function confirmDelete(evt) {
+            toggleModal(evt, deleteModalEl, "open");
+        }
+
+        /**
+         * Not the best approach, since it uses a data attribute.
+         * Replace later on in the future with a more secure, efficient approach.
+         * */
+        function removeItemFromCart(evt) {
+            var id = Number(evt.target.getAttribute("data-id"));
+            var index = indexOf(shoppingCartList, id);
+            var itemExists = index !== -1;
+            if (itemExists) {
+                // Remove from array
+                shoppingCartList.splice(index, 1);
+
+                // Remove from DOM
+                document.getElementById("shoppingCartRow" + id).remove();
+
+                hideShoppingCartIfEmpty();
+            } else {
+                // Failed to remove: Notify users if needed
+            }
+            // Lastly, close modal
+            toggleModal(evt, deleteModalEl, "close");
+
+            // Emit changes
+            var el = document.querySelector('.qty-input');
+            if (el) {
+                el.dispatchEvent(new Event('input'));
+            }
+        }
+
+        /**
+         * Since we are not using an MVC framework, we will first
+         * apply the inefficient approach.
+         * */
+        function addToCart(evt) {
+            var id = Number(evt.target.getAttribute("data-id"));
+            var index = indexOf(itemList, id);
+            var itemExists = index !== -1;
+
+            if (itemExists) {
+                var inShoppingCart = indexOf(shoppingCartList, id) !== -1;
+                // Add item to list of shopping cart items
+                // If Item does not already exist on shopping cart
+                if (!inShoppingCart) {
+                    // Add to cart array.
+                    shoppingCartList.push(copyObject(itemList[index]));
+                    // Recreate the DOM elements - Not the most effective approach
+                    // Will likely be re-worked in future exercises
+                    refreshShoppingCartDom();
+
+                    hideShoppingCartIfEmpty();
+                } else {
+                    var el = document.querySelector(".qty-input[data-id='"+id+"']");
+                    // Increment
+                    el.stepUp(1);
+                    // Trigger event
+                    el.dispatchEvent(new Event('input'));
+                }
+
+            } else {
+                // Notify to users that you have failed to add item.
+                // Implement if needed
+            }
+            // Perform some database transaction later.
+        }
+
+        /**
+         * Recreate the DOM elements by
+         * 1. Removing all event listeners
+         * 2. Re-creating DOM template and appending to actual DOM
+         * 3. Re-initialize event listeners
+         * */
+        function refreshShoppingCartDom() {
+            // Remove existing event listeners
+            removeEventListeners(document.querySelectorAll('.btn-remove'), 'click', confirmDelete);
+            removeEventListeners(document.querySelectorAll('.qty-input'), 'input', changeQty);
+            removeEventListeners(document.querySelectorAll('.coupon-input'), 'keyup', validateRowCoupon);
+            document.querySelector(".total-coupon-input").removeEventListener('keyup', validateTotalCoupons);
+
+            // Re-create template
+            initializeShoppingCartListTemplate();
+
+            // Add new event listeners for removing items from cart
+            initializeRemoveItemModalPopupEvents();
+
+            // Initialize coupon validation
+            initializeCouponValidationEvents();
+
+            // Add event listeners for quantity change
+            initializeQtyChangeEvents();
+        }
+
+        /**
+         * Toggle modal based on its current state.
+         * If it is opened, it will close. Otherwise, it will open
+         *
+         * @param evt The event object triggered by button click
+         * @param modal The target modal element
+         * @param {String} state. The desired effect that you want to see.
+         * If unspecified, default behaviour is 'toggle'
+         * 1. 'Toggle' - Toggle to the other state. If opened, will close.
+         * If closed, will open
+         * 2. 'close' - Close the target modal.
+         * 3. 'open' - Open the target modal.
+         * */
+        function toggleModal(evt, modal, state) {
+            // Toggle the modal.
+            var overlay = document.getElementById("modalOverlay");
+            // Set id of item to be deleted - Not ideal, i know
+            modal.querySelector('.remove-from-cart').setAttribute("data-id", evt.target.dataset.id);
+
+            if (state === "open") {
+                modal.classList.remove("hidden");
+                overlay.classList.remove("hidden");
+            } else if (state === "close") {
+                modal.classList.add("hidden");
+                overlay.classList.add("hidden");
+            // Toggle
+            } else {
+                if (modal.classList.contains("hidden")) {
+                    modal.classList.remove("hidden");
+                    overlay.classList.remove("hidden");
+                } else {
+                    modal.classList.add("hidden");
+                    overlay.classList.add("hidden");
+                }
+            }
+        }
+
+        // Html element of shopping cart container
+        var shoppingCartEl = document.querySelector('.shopping-cart');
+        // Boolean flag to determine whether to show cart on startup
+        var displayShoppingCart = shoppingCartList.length > 0;
+
+        /**
+         * Onclick, toggle the shopping card base on the boolean
+         * flag value `displayShoppingCart`
+         *
+         * Manipulates the html list element and not the entire container.
+         * */
+        function toggleShoppingCart(evt) {
+            displayShoppingCart = !displayShoppingCart;
+            // toggle
+            if (displayShoppingCart) {
+                shoppingCartListElement.classList.remove("hidden");
+                evt.target.innerHTML = "&#9776;&nbsp;Hide";
+            } else {
+                shoppingCartListElement.classList.add("hidden");
+                evt.target.innerHTML = "&#9776;&nbsp;Show";
+            }
+        }
+
+        /**
+         * Only called on page startup
+         * Hide/show shopping cart depending on whether cart is empty or not.
+         * */
+        function hideShoppingCartIfEmpty() {
+            shoppingCartList.length
+                ? shoppingCartEl.classList.remove("hidden")
+                : shoppingCartEl.classList.add("hidden");
+        }
+
+        /**
+         * Find the index of an item in the shopping list array.
+         * Note: this is not the ideal way of handling this, but since we will not be using any frameworks,
+         * we will do it the quick and dirty way for now.
+         *
+         * @param {Array} list the array to inspect
+         * @param {Number} id The id of the product
+         * @return {Number} the index of the item in the array. If not found, return -1.
+         * */
+        function indexOf(list, id) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id === id) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        /**
+         * Initialize event listeners for remove buttons
+         * */
+        function initializeRemoveItemModalPopupEvents() {
+            createEventListeners(document.querySelectorAll('.btn-remove'), 'click', confirmDelete);
+        }
+
+        function initializeCouponValidationEvents() {
+            createEventListeners(document.querySelectorAll('.coupon-input'), 'keyup', validateRowCoupon);
+            document.querySelector(".total-coupon-input").addEventListener('keyup', validateTotalCoupons);
+        }
+
+        /**
+         * Event listener for updating the objects when changes are made
+         * */
+        function initializeQtyChangeEvents() {
+            createEventListeners(document.querySelectorAll('.qty-input'), 'input', changeQty);
+        }
+
+        /**
+         * Initialize add to cart event listeners
+         * */
+        function initializeAddToCartListeners() {
+            createEventListeners(document.querySelectorAll('.btn-add-to-cart'), 'click', addToCart);
+        }
+
+
+        /**
+         * Add event listener by function reference and event type
+         * @param {NodeListOf} elements A node list, which is an array like object, but not quite an array
+         * @param {string} eventType The type of the element E.g. "click", "mouseover"
+         * @param {Function} fn the callback function passed to each of the elements.
+         * */
+        function createEventListeners(elements, eventType, fn) {
+            Array.prototype.forEach.call(elements, function(element) {
+                element.addEventListener(eventType, fn);
+            });
+        }
+
+        /**
+         * Remove event listener by function reference and event type
+         * @param {NodeListOf} elements A node list, which is an array like object, but not quite an array
+         * @param {string} eventType The type of the element E.g. "click", "mouseover"
+         * @param {Function} fn the callback function passed to each of the elements.
+         * */
+        function removeEventListeners(elements, eventType, fn) {
+            Array.prototype.forEach.call(elements, function(element) {
+                element.removeEventListener(eventType, fn);
+            });
+        }
+
+        /**
+         * Initialize all event listeners
+         * And actions that need to take place during/prior
+         * to loading.
+         *
+         * This is kind of ugly. I am actually working on a small framework that will
+         * enable me to create re-active components. I still need to write a fair bit of code,
+         * so I decided to do it the obsolete approach before applying the framework.
+         *
+         * Alternatively, re-writing this code in React will also do.
+         *
+         * Right now, because there is no central source of UI state, this leads to brittle,
+         * difficult to debug code. For now, we will leave it as it is, but this will eventually
+         * have to be refactored.
+         *
+         * Front-end MVC or MVVM frameworks help users create a central/unified location/reference
+         * to manage the state of the data in the front-end.
+         *
+         * It is possible to write code that flows from a central/individual data source, but
+         * it requires more time and effort.
+         *
+         * For now, this will do. But note to those that come across this: the code on this page
+         * is not ideal for large scale applications.
+         * */
+        function init() {
+            // Generate HTML for item list
+            initializeShoppingListTemplate();
+
+            // Generate HTML for shopping cart list
+            initializeShoppingCartListTemplate();
+
+            // hide/show shopping cart depending on whether cart is empty or not.
+            hideShoppingCartIfEmpty();
+
+            // Coupon validation event listeners
+            initializeCouponValidationEvents();
+
+            // Toggle cart display event listener
+            document.getElementById("toggleShoppingCart").addEventListener('click', toggleShoppingCart);
+
+            // Add Remove from cart Modal Popup event listeners
+            initializeRemoveItemModalPopupEvents();
+
+            // Add to cart event listeners
+            initializeAddToCartListeners();
+
+            // Quantity changed event initializer
+            initializeQtyChangeEvents();
+
+            // modal close event listeners
+            createEventListeners(document.querySelectorAll(".close-modal, .overlay"), 'click', function(evt) {
+                toggleModal(evt, deleteModalEl, 'close');
+            });
+
+            // Remove from cart event
+            document.querySelector('.remove-from-cart').addEventListener('click', function(evt) {
+                removeItemFromCart(evt);
+            });
+        }
+
+        // Lastly, Initialize page
+        init();
 
     })();
 </script>
