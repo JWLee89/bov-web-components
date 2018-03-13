@@ -890,7 +890,8 @@
         }
 
         /**
-         * Since we are not using an MVC framework, we will first
+         * Since we are not using an MVC framework and this will eventually be
+         * re-written, we will first
          * apply the inefficient approach.
          * */
         function addToCart(evt) {
@@ -949,6 +950,9 @@
 
             // Add event listeners for quantity change
             initializeQtyChangeEvents();
+
+            // Re-initialize used coupons since input fields will be recreated
+            usedCouponList = [];
         }
 
         /**
