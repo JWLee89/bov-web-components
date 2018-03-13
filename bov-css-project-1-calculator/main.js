@@ -256,7 +256,6 @@
         // right hand side negative
         // E.g. -999 = 0 - 999
         if (operand === subtractSign && !leftHandSide) {
-            console.log("left hand side is null: " + leftHandSide + ". RHS: " + rightHandSide);
             rightHandSide = -rightHandSide;
             leftHandSide = 0;
             operand = operands.pop();  // Move onto next operand
@@ -269,18 +268,15 @@
         } else if (operand === subtractSign && operands.length) {
             // Double minuses E.g. 0 -- 3
             if (getLastOperand() === subtractSign) {
-                console.log("double minus");
                 operands.pop();
                 operand = operands.pop();  // Move onto next operand after minus
                 performSingleOperation(leftHandSide, rightHandSide);
             // Minus and something else E.g. 9 * - 3
             } else {
-                console.log("minus and something else");
                 rightHandSide = -rightHandSide;
                 operand = operands.pop();
             }
         } else {
-            console.log("Regular operation: ");
             numbers.push(getCalculatedResult(leftHandSide, rightHandSide, operand));
         }
     }
@@ -309,23 +305,18 @@
      * */
     function getCalculatedResult(num1, num2, sign) {
         var result;
-        console.log("sign: " + sign);
         switch(sign) {
             case addSign:
                 result = num1 + num2;
-                console.log("adding: ", num1, " and ", num2);
                 break;
             case subtractSign:
                 result = num1 - num2;
-                console.log("subtracting: ", num1, " and ", num2);
                 break;
             case multiplySign:
                 result = num1 * num2;
-                console.log("multiplying: ", num1, " and ", num2);
                 break;
             case divideSign:
                 result = num1 / num2;
-                console.log("dividing: ", num1, " and ", num2);
                 break;
             default:
                 throw Error("Invalid sign: " + sign);
