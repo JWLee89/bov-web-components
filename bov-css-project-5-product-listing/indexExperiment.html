@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 5 - Product Listing Page</title>
+    <link rel="stylesheet" type="text/css" href="styleExperiment.css"/>
+</head>
+<body>
+    <!--
+        I don't like the idea of copying
+        of copying and pasting HTML code.
+        Although i haven't started JS course yet,
+        I will just use handlebars to template fake data.
+     -->
+    <!-- Begin List of items -->
+    <section class="item-list">
+        <h2 class="shopping-list-header">Your Search Results</h2>
+        <div id="shopping-list-section">
+            <!-- Contents generated dynamically -->
+        </div>
+    </section>
+
+    <!-- Begin shopping cart item list -->
+    <section class="shopping-cart">
+        <h2 class="shopping-cart-header clear-fix">
+            Your Shopping Cart
+            <button id="toggleShoppingCart" class="btn btn-pill float-right">
+                &#9776;&nbsp;Hide
+            </button>
+        </h2>
+        <div id="shopping-cart-list-section">
+            <!-- Contents generated dynamically -->
+        </div>
+        <div class="item-container" id="checkout-section">
+            <!-- Contents generated dynamically -->
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <section id="deleteModal" class="modal fixed hidden">
+        <h2 class="modal-heading">Remove item from cart?</h2>
+        <div class="modal-body">
+            <div class="alert alert-warning">Are you sure that you wish to remove this from your cart?</div>
+        </div>
+        <div class="modal-footer text-right">
+            <button class="btn btn-red close-modal">Close</button>
+            <button class="btn btn-blue ok-confirm remove-from-cart">Ok</button>
+        </div>
+    </section>
+
+    <!-- Hidden overlay shown when displaying messages -->
+    <div id="modalOverlay" class="overlay fixed hidden"></div>
+</body>
+<!--
+    README: In my makeshift handlebars / semi-reactive component,
+    helper functions are denoted by "$" in front of the method
+    E.g.
+    {{ $printPrice(price) }}
+    items wrapped in brackets will be "evaluated"
+-->
+<script id="item-list-template" type="text/x-template">
+    <div class="item-container">
+        <div class="row">
+            <div class="col-3">
+                <img class="product-img inline-block" src="{{ imgUrl }}"/>
+            </div>
+            <div class="col-9">
+                <div class="item-container-content inline-block align-top">
+                    <!-- textNode -->
+                    <div class="item-heading bottom-border">
+                        <div class="product-info-section float-left">
+                            <h2>
+                                <a href="#">{{ productName }}</a>
+                            </h2>
+                            <span class="author">
+                                by <a href="#">{{ maker }}</a>
+                                </span>
+                        </div>
+                        <div class="add-to-cart-section float-right">
+                            <button class="btn btn-add-to-cart">Add to Cart</button>
+                        </div>
+                        <div class="clear-fix"></div>
+                    </div>
+                    <div class="item-container-content-body">
+                        <p class="block-with-text">{{ description }}</p>
+                        <div class="item-information top-border">
+                            <div>{{ $printPrice(price) }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!-- Template for item list -->
+<script id="shopping-cart-list-template" type="text/x-handlebars-template">
+    <div class="item-container">
+        <div class="row">
+            <div class="col-3">
+                <img class="product-img inline-block" src="{{ imgUrl }}"/>
+            </div>
+            <div class="col-9 padding-left-20">
+                <div class="row bottom-border">
+                    <div class="col-6 align-middle padding-15">
+                        <h3>{{ productName }}</h3>
+                    </div>
+                    <div class="col-2 align-middle padding-15">
+                        {{ $printPrice(price) }}
+                    </div>
+                    <div class="col-2 align-middle padding-15">
+                        <input type="number" data-id="{{id}}" class="input qty-input full-width" value="{{ quantity }}">
+                    </div>
+                    <div class="col-2 align-middle padding-15">
+                        {{ $calculateRowTotal(price,quantity,discount) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 align-middle padding-15 text-center">
+                        <h3>Add promo code</h3>
+                    </div>
+                    <div class="col-4 align-middle padding-15 text-center">
+                        <input type="text" data-id="{{id}}" class="input coupon-input full-width" placeholder="XXXXXXXX">
+                        <!--Failure coupon msg-->
+                        <div class="alert coupon-msg alert-warning hidden">Invalid code. Try again.</div>
+                        <!--Success coupon msg -->
+                        <div class="alert coupon-msg alert-success hidden">Valid code!</div>
+                    </div>
+                    <div class="col-4 align-middle padding-15 text-center">
+                        <!-- Later on, we can add some extended styling or some font awesome
+                        to make it look neater. -->
+                        <button class="btn btn-remove btn-red" data-id="{{id}}">&#8854;&nbsp; Remove From Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="checkout-template" type="text/x-handlebars-template">
+    <!-- Total and checkout button -->
+    <div class="item-container">
+        <div class="row bottom-border">
+            <div class="col-8 align-middle padding-15 text-right">
+                <div style="width: 100%; height: 160px; padding: 15px;
+                background-color: #f1f2f3; border-radius:
+                 8px; text-align: center; font-size: 2em;">Content Placeholder</div>
+                <div class="col-6 align-middle padding-15 text-center">
+                    <h3>Add promo code</h3>
+                </div>
+                <div class="col-6 align-middle padding-15 text-center">
+                    <input type="text" data-id="{{id}}" class="input total-coupon-input full-width" placeholder="XXXXXXXX">
+                    <!--  Failure coupon msg -->
+                    <div class="alert coupon-msg alert-warning hidden">Invalid code. Try again.</div>
+                    <!-- Success coupon msg -->
+                    <div class="alert coupon-msg alert-success hidden">Valid code!</div>
+                </div>
+            </div>
+            <div class="col-4 align-middle padding-15 text-right">
+                <table class="table pricing-table">
+                    <tr>
+                        <td class="cost">Shopping Cart Item Total Price</td>
+                        <td id="totalPrice">{{ $printPrice(totalPrice) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="discount">Total Discount</td>
+                        <td id="totalDiscount">{{ $printPrice(totalDiscount) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="cost">Shipping fees</td>
+                        <td id="totalShipping">{{ $printPrice(shipping) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="cost">Taxes</td>
+                        <td id="totalTax">{{ $printPrice(totalTax) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td id="grandTotal">{{ $printPrice(grandTotal) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row bottom-border">
+                <div class="col-6 align-middle padding-15 text-right">
+                    <button class="btn btn-lg btn-blue">&rarr;&nbsp;Continue Shopping</button>
+                </div>
+                <div class="col-6 align-middle padding-15 text-right">
+                    <button class="btn btn-checkout">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script src="main.js"></script>
+</html>

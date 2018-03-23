@@ -1,0 +1,471 @@
+/**
+ * Globals
+ *
+ */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/**
+ * Shopping List and Cart
+ * ==========================
+ */
+.item-list, .shopping-cart {
+    max-width: 1024px;
+    margin: 50px auto;
+    transition: all 0.6s ease-in-out;
+}
+
+.product-img {
+    /* Nothing for now */
+}
+
+sup.currency {
+    font-size: 1.1em;
+}
+
+sup.cent {
+    text-decoration: underline;
+    margin-left: 3px;
+}
+
+/**
+ * Toggle up/
+ */
+.shopping-cart-list-section {
+    transition: opacity 1s ease-in-out;
+}
+
+.shopping-cart-header, .shopping-list-header {
+    background-color: #ededee;
+    top: 20px;
+}
+
+.shopping-cart-header, .shopping-list-header,
+.btn-add-to-cart, .btn-checkout {
+    padding: 20px 20px 20px 60px !important;
+    position: relative;
+}
+
+/**
+ * In the future, I can combine this into a single rule and
+ * add the css class to the html
+ */
+.shopping-cart-header:before, .shopping-list-header:before,
+.btn-add-to-cart:before, .btn-checkout:before {
+    left: 20px;
+    position: absolute;
+}
+
+.shopping-cart-header:before,
+.btn-add-to-cart:before,
+.btn-checkout:before {
+    content: "🛒";
+}
+
+.btn-add-to-cart, .btn-checkout {
+    background-color: #e7a61a;
+    color: #FFF;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+.btn-add-to-cart:before, .btn-checkout:before {
+    top: 15px;
+}
+
+/**
+ * Shopping List
+ * ==========================
+ */
+.shopping-list-header:before {
+    content: "🖹";
+    font-size: 1.3em;
+    left: 25px;
+    top: 0.6em;
+}
+
+.item-container {
+    border: 2px solid #f1f2f3;
+    width: 100%;
+}
+
+.item-container:not(:first-child) {
+    border-top: none;
+}
+
+.item-container-content {
+    line-height: 2em;
+    margin-left: 25px;
+    max-width: 700px;
+    width: 100%;
+}
+
+.item-container-content a {
+    color: #9FC2D8;
+    text-decoration: none;
+}
+
+.item-container-content a:hover {
+    text-decoration: underline;
+}
+
+.item-heading {
+    padding-bottom: 10px;
+}
+
+.product-info-section {
+    max-width: 500px;
+}
+
+.add-to-cart-section {
+    margin-top: -10px;
+}
+
+.item-heading h2 {
+    margin: 0;
+}
+
+.item-container-content-body {
+}
+
+.block {
+    display: block;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.hidden {
+    display: none;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+/**
+ * For the built-in modal
+ */
+.overlay {
+    left: 0;
+    height: 100%;
+    top: 0;
+    width: 100%;
+    background-color: rgba(44,44,44, 0.65);
+    z-index: 800;
+}
+
+.modal {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid silver;
+    left: 35%;
+    margin: 15px auto;
+    max-height: 450px;
+    max-width: 500px;
+    top: 10%;
+    z-index: 1000;
+}
+
+.alert {
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-success{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.modal-heading {
+    background-color: #ededee;
+    padding: 15px;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 15px;
+}
+
+.modal-footer {
+    border-top: 1px solid #efefef;
+    padding: 15px;
+}
+
+
+/*
+   styles for Multi-line '...'
+   I got this solution online. On reviewing the code,
+   I fully understand how it works and can write one from scratch
+ */
+.block-with-text {
+    overflow: hidden;
+    position: relative;
+    line-height: 1.5em;
+    /* max-height = line-height (1.5) * lines max number (3) */
+    max-height: 4.5em;
+    /* fix problem when last visible word doesn't adjoin right side  */
+    text-align: justify;
+    /* Offset to position the "..." */
+    margin-right: 1em;
+    padding-right: 1em;
+}
+
+.block-with-text:before {
+    /* points in the end */
+    content: '...';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of block */
+    right: 0;
+    bottom: 0;
+}
+
+.block-with-text:after {
+    /* points in the end */
+    content: '';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of text */
+    right: 0;
+    width: 1em;
+    /* set width and height */
+    height: 1em;
+    margin-top: 0.2em;
+    background: white;
+}
+
+/**
+ * Shopping Cart
+ * ==========================
+ */
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table td {
+    padding: 10px;
+}
+
+.pricing-table tr:last-child {
+    border-top: 2px dashed #efefef;
+    font-size: 1.25em;
+    font-weight: 700;
+}
+
+/*
+ * Utility classes
+ * =======================
+ */
+.col-12, .col-9, .col-8, .col-6, .col-4, .col-3, .col-2 {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.col-12, .full-width, .btn-submit {
+    width: 100%;
+}
+
+.col-9 {
+    width: 74.5%;
+}
+
+.col-8 {
+    width: 66.6%;
+}
+
+.col-6 {
+    width: 49.5%;
+}
+
+.col-4 {
+    width: 32.8%;
+}
+
+.col-3 {
+    width: 25%;
+}
+
+.col-2 {
+    width: 16.2%;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.clear-fix:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.row {
+    padding: 20px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.margin-right-20 {
+    margin-right: 20px;
+}
+
+.padding-left-20 {
+    padding-left: 20px;
+}
+
+.no-margin-bot {
+    margin-bottom: 0;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.align-top {
+    vertical-align: top;
+}
+
+.align-middle {
+    vertical-align: middle;
+}
+
+.align-bottom {
+    vertical-align: bottom;
+}
+
+.bottom-border {
+    border-bottom: 1px solid #e6e7e8;
+}
+
+.top-border {
+    border-top: 1px solid #e6e7e8;
+}
+
+.padding-15 {
+    padding: 15px;
+}
+
+.btn {
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn-pill {
+    border-radius: 6px;
+    padding: 6px 12px;
+    border: 1px solid #f1f2f3;
+}
+
+.btn-lg {
+    font-size: 1.5em;
+    padding: 20px;
+}
+
+.btn-blue {
+    background-color: #3399ff;
+    color: #fff;
+}
+
+.btn-red {
+    background-color: #ff3333;
+    color: #fff;
+}
+
+.input {
+    background-color: #f9f9f8;
+    border: 3px solid #f1f1f2;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.btn:hover, .btn:active {
+    opacity: 0.75;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/**
+ * Summary
+ */
+.pricing-table td.cost {
+    color: indianred;
+}
+.pricing-table td.cost:before {
+    content: "⊕   "
+}
+.pricing-table td.discount {
+    color: lightblue;
+}
+.pricing-table td.discount:before {
+    content: "-   "
+}
+
+/**
+ * Media Queries
+ * ==========================
+ */
+@media screen and (max-width: 1000px) {
+    .product-img {
+        max-width: 350px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .col-12, .col-9, .col-8, .col-6, .col-4, .col-3, .col-2 {
+        width: 100%;
+        margin: 12px 0;
+        display: block;
+    }
+    .tab-component label.tab-component-label {
+        display: block;
+    }
+    .product-info-section {
+        min-width: 0;
+    }
+    .item-container-content {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .add-to-cart-section, .product-info-section {
+        float: none;
+        margin: 20px 0;
+        text-align: center;
+    }
+}
