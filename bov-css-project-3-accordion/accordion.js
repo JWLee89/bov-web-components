@@ -134,18 +134,28 @@
      * Initialize the component
      * */
     function initReactiveAccordion() {
+        var that = this;
         initOptions.call(this);
+        this.events = {};
         // initialize toggle function
-        this.options.toggleAccordion =
-                        "toggleAccordion" in this.options ?
-                        // user-defined behavior
-                        this.options.toggleAccordion :
+        this.events.toggleAccordion =
                         // Simply toggle
                         function toggleAccordion(evt) {
+                            // Hide other accordions if multi select is disabled
+                            if (!that.options.multiSelect) {
+                                var dataList = that.data;
+                                that.data.forEach(function(d) {
+                                    d.isHidden = true;
+                                 });
+                            }
                             this.isHidden = !this.isHidden;
+                            // Apply callback if defined
+                            if ("toggleAccordion" in that.options) {
+                                that.options.toggleAccordion(this);
+                            }
                         };
         // initialize the Accordion DOM
-        this.dom = initDOM.call(this);
+        initDOM.call(this);
     }
 
     /**
@@ -224,7 +234,7 @@
             index = that.DOMCache.length;
             cache.push(cacheObject);
         }
-        titleElement.addEventListener('click', this.options.toggleAccordion.bind(that.data[index]));
+        titleElement.addEventListener('click', this.events.toggleAccordion.bind(that.data[index]));
     }
 
     /**
@@ -332,11 +342,9 @@
                         var cachedAccordionContainer = that.DOMCache[index];
                         var icon = title.firstElementChild;
 
-                        // Hide other accordions if multi select is disabled
-                        if (!that.options.multiSelect) {
-                           that.DOMCache.forEach(function(data) {
-                               hideAccordion(data);
-                            });
+                        // Set icon if needed
+                        if (obj.icon) {
+                            icon.innerHTML = obj.icon[booleanToNumber(obj.isHidden)];
                         }
 
                         // Is hidden
@@ -346,10 +354,6 @@
                             showAccordion(cachedAccordionContainer);
                         }
 
-                        // Set icon if needed
-                        if (obj.icon) {
-                            icon.innerHTML = obj.icon[booleanToNumber(obj.isHidden)];
-                        }
                     } else if (key === "icon") {
                         title.innerHTML = newValue[booleanToNumber(obj.isHidden)] + title.innerHTML;
                     } else {
@@ -433,7 +437,7 @@
 
             // Remove event listeners
             var titleEl = cachedElements.title;
-            titleEl.removeEventListener('click', this.options.toggleAccordion);
+            titleEl.removeEventListener('click', this.events.toggleAccordion);
             // update DOM
             this.root.removeChild(titleEl.parentElement);
         } else {
