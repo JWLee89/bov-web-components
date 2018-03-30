@@ -69,7 +69,7 @@ The api is very simple so far. It only consists of the following methods:
 1. `add`
 2. `remove`
 
-#### `Add(data, index)`
+#### `add(data, index)`
 
 Add data to the accordion dynamically at runtime. 
 
