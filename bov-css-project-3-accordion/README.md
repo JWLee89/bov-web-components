@@ -74,7 +74,8 @@ The api is very simple so far. It only consists of the following methods:
 Add data to the accordion dynamically at runtime. 
 
 `data` - `Object`: The data that will be inserted. Upon insertion, the data will immediately be made reactive.
-` 
+`index` - `Integer`: The index at which to add the data. If the index is not defined, the data will be added at the end.
+
 #### `remove(index)`
 
 Removes the data from memory and also updates the DOM, removing any event listeners attached.
