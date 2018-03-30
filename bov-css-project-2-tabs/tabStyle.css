@@ -28,6 +28,8 @@
     bottom: 5px;    /* To provide some space */
     cursor: pointer;
     font-size: 1.2em;
+    margin-left: -4px;
+    margin-right: -4px;
     padding: 10px 16px 5px 26px;
     position: relative;
     text-transform: capitalize;
@@ -53,6 +55,14 @@
 .tabComponent > label:hover::after,
 .tabComponent > input:checked + label::after {
     background: #4D71A3;
+}
+
+/* Where the magic happens */
+input[type=radio]#home-decor:checked ~ .tabs-content-container > div[data-target="home-decor"],
+input[type=radio]#furniture:checked ~ .tabs-content-container > div[data-target="furniture"],
+input[type=radio]#kitchen:checked ~ .tabs-content-container > div[data-target="kitchen"],
+input[type=radio]#clearance:checked ~ .tabs-content-container > div[data-target="clearance"] {
+    display: block;
 }
 
 .tabComponent > input[type=radio]:checked + label{
