@@ -146,11 +146,11 @@
                             if (!that.options.multiSelect) {
                                 var dataList = that.data;
                                 that.data.forEach(function(d) {
-                                    if (d.index !== currentIndex)
-                                        d.isHidden = true;
+                                    d.index === currentIndex ?
+                                        d.isHidden = !d.isHidden :  // Toggle
+                                        d.isHidden = true;          // hide all others
                                  });
                             }
-                            this.isHidden = !this.isHidden;
                             // Apply callback if defined
                             if ("toggleAccordion" in that.options) {
                                 that.options.toggleAccordion(this);
