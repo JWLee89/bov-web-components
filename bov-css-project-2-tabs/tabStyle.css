@@ -1,3 +1,4 @@
+/**Updated stylesheet after using vue.js*/
 * {
     box-sizing: border-box;
 }
@@ -71,11 +72,6 @@ input[type=radio]#clearance:checked ~ .tabs-content-container > div[data-target=
     padding-bottom: 7px;
     color: #4D71A3;
     background-color: #f0f9ff;
-}
-
-/* Hide tabs by default */
-.tabs-content-container > div.tab-contents {
-    display: none;
 }
 
 .tabs-content-container {
