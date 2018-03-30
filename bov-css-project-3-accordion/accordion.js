@@ -141,11 +141,13 @@
         this.events.toggleAccordion =
                         // Simply toggle
                         function toggleAccordion(evt) {
+                            var currentIndex = this.index;
                             // Hide other accordions if multi select is disabled
                             if (!that.options.multiSelect) {
                                 var dataList = that.data;
                                 that.data.forEach(function(d) {
-                                    d.isHidden = true;
+                                    if (d.index !== currentIndex)
+                                        d.isHidden = true;
                                  });
                             }
                             this.isHidden = !this.isHidden;
