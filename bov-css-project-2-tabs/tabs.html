@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Assignment 2 - Tabs</title>
+    <link rel="stylesheet" type="text/css" href="tabStyle.css"/>
+</head>
+<body>
+    <!-- Begin tabs -->
+    <div class="tabComponent" v-if="tabs.length">
+        <template v-for="(tab, idx) in tabs">
+            <input type="radio" :checked="idx === index">
+            <label @click="changeTab(idx)">{{ tab.title }}</label>
+        </template>
+        <!-- Contents -->
+        <div class="tabs-content-container" >
+            <div class="tab-contents" v-html="tabs[index].content">
+            </div>
+        </div>
+    </div>
+</body>
+<!-- Vue.js import -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+<script type="text/javascript">
+    // In order to save some time, we will build this using Vue.js
+    (function() {
+        new Vue({
+            el: ".tabComponent",
+            data: function() {
+                return {
+                    index: 0,
+                    tabs: [
+                        {
+                            title: "Home Decor",
+                            content: "Home decorations right here"
+                        },
+                        {
+                            title: "Furniture",
+                            content: "Furniture stuff ..."
+                        },
+                        {
+                            title: "Kitchen",
+                            content: "Kitchen stuff ..."
+                        },
+                        {
+                            title: "Clearance",
+                            content: "Red hot deals at affordable prices. Check out our clearance section for more details."
+                        }
+                    ]
+                };
+            },
+            methods: {
+                changeTab: function(index) {
+                    this.index = index;
+                }
+            }
+        });
+    })()
+</script>
+</html>

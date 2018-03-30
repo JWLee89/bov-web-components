@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+}
+
+.tabComponent {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 5px;
+}
+
+.tabs-container > div {
+    display: none;
+}
+
+.tabComponent > input[type=radio] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.tabComponent label {
+    background-color: #fff;
+    bottom: 5px;    /* To provide some space */
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-left: -4px;
+    margin-right: -4px;
+    padding: 10px 16px 5px 26px;
+    position: relative;
+    text-transform: capitalize;
+    transition: background-color 0.3s ease-in;
+    z-index: 1000;
+}
+
+.tabComponent > label::after {
+    background: #BCD4E6;
+    content: "";
+    height: 1em; /* Relative to the height of the text yaye :)*/
+    left: 12px;
+    position: absolute;
+    top: 10px;
+    width: 5px;
+}
+
+/* Hover Events */
+.tabComponent > label:hover {
+    color: #2281CF;
+}
+
+.tabComponent > label:hover::after,
+.tabComponent > input:checked + label::after {
+    background: #4D71A3;
+}
+
+.tabs-content-container {
+    border: 1px solid #82cffa;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 20px;
+}
