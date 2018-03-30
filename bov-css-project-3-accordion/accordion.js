@@ -162,7 +162,7 @@
     }
 
     /**
-     * Initialize the virtual DOM
+     * Initialize the DOM.
      * */
     function initDOM() {
         var data = this.data, key, docFrag = document.createDocumentFragment();
@@ -209,7 +209,7 @@
             accordionNode.querySelector(ICON_CLASS_SELECTOR).innerHTML = icon;
         }
 
-        // Add references to virtual DOM for fast access
+        // Create DOM cache for fast access
         // and event listeners
         cacheAndInitializeElements.call(
                         this, accordionNode.querySelector(TITLE_CLASS_SELECTOR),
@@ -221,7 +221,7 @@
     }
 
     /**
-     * A very simple, literal virtual DOM
+     * A very simple, literal DOM cache
      * I.E. Store the literal node in memory for faster updates.
      * Will update to a slimmer version in the future.
      * */
