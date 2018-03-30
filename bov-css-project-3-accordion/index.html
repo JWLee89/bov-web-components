@@ -1,0 +1,131 @@
+<html>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="accordion.css">
+<body>
+    <h2 class="header">Reactive Accordion Component</h2>
+    <!-- Container for the accordion will be generated using JavaScript -->
+    <div id="accordion"></div>
+
+    <!-- Dummy form -->
+    <div class="form">
+        <h3 class="form-header">Update the Reactive Accordion</h3>
+        <div class="label inline-block">Select the item to change: </div>
+        <select class="input" id="accordionIndex"></select>
+        <div class="line-separator"></div>
+
+        <div class="label">Update Accordion Heading </div>
+        <input class="input" type="text" id="firstAccordion">
+        <button class="btn btn-dark-blue margin-left-15" onclick="changeHeading()">Apply</button>
+        <div class="line-separator"></div>
+
+        <div class="label">Update Accordion Content (HTML works if enabled). Psst, the <u>first and last accordion item</u> allows html.</div>
+        <textarea class="input textarea" id="accordionContent">
+            &lt;div style='margin-top: 10px;' class='form'&gt;
+                &lt;h3 class='form-header'&gt;Update the Reactive Accordion&lt;/h3&gt;
+                &lt;div class='label inline-block'&gt;Select the item to change: &lt;/div&gt;
+                &lt;div class='line-separator'&gt;&lt;/div&gt;
+
+                &lt;div class='label'&gt;Accordion Heading &lt;/div&gt;
+                &lt;button class='btn btn-dark-blue margin-left-15' onclick='changeHeading()'&gt;Apply&lt;/button&gt;
+                &lt;div class='line-separator'&gt;&lt;/div&gt;
+
+                &lt;div class='label'&gt;Accordion Content (HTML works if enabled). Psst; the first accordion allows HTML inputs. &lt;/div&gt;
+                &lt;textarea class='input textarea'&gt;test
+                &lt;/textarea&gt;
+                &lt;div class='line-separator'&gt;&lt;/div&gt;
+
+                &lt;div class='label inline-block'&gt;Allow Multiple Accordions to be Opened &lt;/div&gt;
+                &lt;div class='line-separator'&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        </textarea>
+        <button class="btn btn-dark-blue margin-15" onclick="changeContent()">Apply</button>
+        <div class="line-separator"></div>
+
+        <div class="label inline-block">Allow Multiple Accordions to be Opened </div>
+        <input class="checkbox-square" type="checkbox" id="toggleMultiSelect">
+    </div>
+</body>
+<script src="accordion.js"></script>
+<script type="text/javascript">
+
+    // Initialize accordion
+
+    var accordion = new ReactiveAccordion([
+        {
+            title: "Appetizers",
+            content: "<div style='color:red; font-weight: bold;'>Check out our tasty apps!</div></br><b>Happy hour menu - half off!!</b></br></br><ul><li>Chicken wings (6) - 5.99$</li></ul>",
+            icon: [
+                "<i class='fa fa-arrow-circle-down'></i>", // Open
+                "<i class='fa fa-arrow-circle-right'></i>"   // Closed
+            ],
+            useHtml: true
+        }, {
+            title: "Second title",
+            content: "<div style='color:red;'>I am not red</div>. I DON'T allow HTML"
+        }, {
+            title: "I am more interesting",
+            icon: [
+                "<i class='fa fa-arrow-down'></i>",      // Open
+                "<i class='fa fa-arrow-right'></i>"      // Closed
+            ],
+            content: "Here is more text: Lorel ipsum doloads ohsadsad oasdo ahdoisah odsap jdpaosjd pojsa dposaj Lorel ipsum doloads ohsadsad oasdo ahdoisah odsap jdpaosjd pojsa dposaj. Lorel ipsum doloads ohsadsad oasdo ahdoisah odsap jdpaosjd pojsa dposaj. Lorel ipsum doloads ohsadsad oasdo ahdoisah odsap jdpaosjd pojsa dposaj. Lorel ipsum doloads ohsadsad oasdo ahdoisah odsap jdpaosjd pojsa dposaj.adhas doas odsadasd a."
+        }
+    ], {
+        el: "#accordion",    // CSS selector
+        debug: true,
+        multiSelect: false   // Allow multiple accordions to be opened simultaneously.
+    });
+
+    // Changing data will also result in updating the DOM.
+   // accordion.data[2].title = "teemo";
+    console.log(accordion);
+
+    // Can dynamically add items to the accordion like this
+    accordion.add({ title: "Bombs Away", content: "Put me in the middle will you????"}, 3);
+    accordion.add({ title: "Guitar hero!", content: "Playing the guitar can sometimes be fun right?"});
+    accordion.add({ title: "Growler (HTML ME!)", content: "I am a grouchy animal",  icon: [
+            "<i class='fa fa-arrow-down'></i>", // Open
+            "<i class='fa fa-arrow-circle-right'></i>"   // Closed
+        ], useHtml: true});
+
+    // Checkbox event listener
+    document.getElementById("toggleMultiSelect").addEventListener("change", toggleMultiSelect);
+    // Select box
+    var selectEl = document.getElementById("accordionIndex");
+
+    function generateSelectBox() {
+        var docFrag = document.createDocumentFragment();
+        selectEl.innerHTML = "";
+        for (var i = 0; i < accordion.data.length; i++) {
+            var option = document.createElement("option");
+            option.setAttribute("value", i);
+            option.appendChild(document.createTextNode(accordion.data[i].title));
+            docFrag.appendChild(option);
+        }
+        selectEl.appendChild(docFrag);
+    }
+    generateSelectBox();
+
+    function toggleMultiSelect() {
+        accordion.options.multiSelect = !!this.checked;
+    }
+
+    /**
+    * Change only the data to see the DOM being updated.
+    * */
+    function changeHeading() {
+        var newHeading = document.getElementById("firstAccordion").value;
+        accordion.data[selectEl.value].title = newHeading;
+        selectEl.querySelector("[value='"+selectEl.value+"']").innerHTML = newHeading;
+    }
+
+    /**
+    * Change only the data to see the DOM being updated.
+    * */
+    function changeContent() {
+        accordion.data[selectEl.value].content =
+            document.getElementById("accordionContent").value;
+    }
+
+</script>
+</html>
