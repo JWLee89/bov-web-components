@@ -58,20 +58,20 @@ Data is passed as the first argument as an `array` of objects. The object has th
 - `useHtml` - `boolean`: If set to true, users can write HTML string to the `title` and `content`
 - `icon` -`Array` : An array of length `2`. The first item represents the icon that appears when the accordion is opened. The second item represents the icon that appears when the accordion is closed. 
 
-### API
+### Methods
 
 The api is very simple so far. It only consists of the following methods: 
 
 1. `add`
 2. `remove`
 
-### `Add(data, index)`
+#### `Add(data, index)`
 
 Add data to the accordion dynamically at runtime. 
 
 `data` - `Object`: The data that will be inserted. Upon insertion, the data will immediately be made reactive.
 ` 
-### `remove(index)`
+#### `remove(index)`
 
 Removes the data from memory and also updates the DOM, removing any event listeners attached.
 
