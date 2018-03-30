@@ -47,6 +47,14 @@
     width: 5px;
 }
 
+.tabComponent > input[type=radio]:checked + label{
+    border: 1px solid #82cffa;
+    border-bottom: 0;
+    padding-bottom: 7px;
+    color: #4D71A3;
+    background-color: #f0f9ff;
+}
+
 /* Hover Events */
 .tabComponent > label:hover {
     color: #2281CF;
