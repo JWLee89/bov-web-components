@@ -37,7 +37,7 @@ For example,
 ```
 ## Demo
 
-A working sample can be found [here](https://github.com/JWLee89/bov-web-components/tree/master/bov-css-project-3-accordion)
+A working sample can be found [here](https://jwlee89.github.io/bov-web-components/bov-css-project-3-accordion/)
 
 ## API
 
