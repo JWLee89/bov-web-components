@@ -1,0 +1,171 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/**
+  * Utility
+  */
+.inline-block {
+    display: inline-block;
+}
+
+.margin-left-15 {
+    margin-left: 15px;
+}
+
+.margin-15 {
+    margin: 15px;
+}
+
+.line-separator {
+    height: 0;
+    border-top: 1px solid #f1f2f3;
+    margin: 15px 0;
+}
+
+.btn-dark-blue {
+    background-color: #003366;
+    color: #fff;
+}
+
+.hide {
+    display: none;
+}
+
+/**
+  * Basic content CSS
+  */
+
+#accordion {
+}
+
+.header {
+    text-align: center;
+}
+
+.form-header {
+    position: relative;
+    margin-top: 0;
+    margin-left: 20px;
+    color: #037584;
+}
+
+.form-header:before {
+    content: "";
+    height: 30px;
+    left: -10px;
+    position: absolute;
+    top: -3px;
+    width: 3px;
+    background-color: darkslategray;
+}
+
+#accordion, .form {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.checkbox-square {
+    background-color: #444;
+    cursor: pointer;
+    height: 40px;
+    position: relative;
+    width: 40px;
+    vertical-align: middle;
+}
+
+.checkbox {
+    padding: 10px;
+    background-color: beige;
+}
+
+.form {
+    margin-top: 50px;
+    padding: 20px;
+    border: 1px solid #f1f2f3;
+}
+
+.btn {
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.btn:hover {
+    opacity: 0.75;
+}
+
+.label {
+    margin: 20px;
+    font-size: 1.2em;
+    letter-spacing: 0.05em;
+}
+
+.input {
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    font-size: 1.1em;
+    padding: 6px;
+}
+
+.textarea {
+    width: 560px;
+    height: 200px;
+}
+
+/**
+ * Required CSS for accordion
+ * =====================
+ */
+.ReactiveAccordion-title {
+    cursor: pointer;
+    padding: 20px;
+    position: relative;
+    transition: background-color, color 0.15s ease-in;
+}
+
+.ReactiveAccordion-title > h3 {
+    display: inline-block;
+    margin: 0;
+}
+
+.ReactiveAccordion-content {
+    transition: all 0.35s linear;
+}
+
+/* Active content */
+div.ReactiveAccordion-active {
+    padding: 20px;
+}
+
+/**
+ * Basic skin - Can be changed at runtime to update styling.
+ * This can be updated / changed at any time.
+ ========================================
+ */
+.ReactiveAccordion-toggle-icon {
+    font-size: 1.2em;
+    margin-right: 5px;
+}
+
+.ReactiveAccordion-container {
+    border: 1px solid #dfd3e3;
+    margin: 0;
+}
+
+.ReactiveAccordion-title {
+    border-bottom: 1px solid #dfdce3;
+}
+/* Active title */
+div.ReactiveAccordion-active-title, .ReactiveAccordion-title:hover {
+    background-color: #037584;
+    color: #fff;
+}
+
+.ReactiveAccordion-title:hover {
+    opacity: 0.8;
+}
