@@ -3,7 +3,7 @@
 This is a simple reactive accordion that I made. If data is changed by the user, the change will immediately be reflected on the DOM.
 For now, it uses a simple caching system where it holds the DOM objects in memory to minimize DOM traversal.
 
-For example,
+Below is a sample code snippet on initializing the plugin.
 
 ```JavaScript
  // Initialize accordion with three items
