@@ -57,10 +57,10 @@ Below are some options that can be provided to the accordion.
 
 Data is passed as the first argument as an `array` of objects. The object has the following properties
 
-- `title` - `String`: The title of the accordion item.
-- `content` - `String`: The content of the accordion. 
-- `useHtml` - `boolean`: If set to true, users can write HTML string to the `title` and `content`
-- `icon` -`Array` : An array of length `2`. The first item represents the icon that appears when the accordion is opened. The second item represents the icon that appears when the accordion is closed. 
+* `title` - `String`: The title of the accordion item.
+* `content` - `String`: The content of the accordion. 
+* `useHtml` - `boolean`: If set to true, users can write HTML string to the `title` and `content`
+* `icon` -`Array` : An array of length `2`. The first item represents the icon that appears when the accordion is opened. The second item represents the icon that appears when the accordion is closed. 
 
 ### Methods
 
@@ -73,11 +73,11 @@ The api is very simple so far. It only consists of the following methods:
 
 Add data to the accordion dynamically at runtime. 
 
-`data` - `Object`: The data that will be inserted. Upon insertion, the data will immediately be made reactive.
-`index` - `Integer`: The index at which to add the data. If the index is not defined, the data will be added at the end.
+* `data` - `Object`: The data that will be inserted. Upon insertion, the data will immediately be made reactive.
+* `index` - `Integer`: The index at which to add the data. If the index is not defined, the data will be added at the end.
 
 #### `remove(index)`
 
 Removes the data from memory and also updates the DOM, removing any event listeners attached.
 
-`index` - The index (zero based) of the accordion item. 0 represents the first item. 1 represents the second item and so on.
+* `index` - The index (zero based) of the accordion item. 0 represents the first item. 1 represents the second item and so on.
