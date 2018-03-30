@@ -57,14 +57,6 @@
     background: #4D71A3;
 }
 
-/* Where the magic happens */
-input[type=radio]#home-decor:checked ~ .tabs-content-container > div[data-target="home-decor"],
-input[type=radio]#furniture:checked ~ .tabs-content-container > div[data-target="furniture"],
-input[type=radio]#kitchen:checked ~ .tabs-content-container > div[data-target="kitchen"],
-input[type=radio]#clearance:checked ~ .tabs-content-container > div[data-target="clearance"] {
-    display: block;
-}
-
 .tabComponent > input[type=radio]:checked + label{
     border: 1px solid #82cffa;
     border-bottom: 0;
