@@ -35,6 +35,10 @@ For example,
     // change the data and watch the first accordion's title update
      accordion.data[0].title = "Watch me change";
 ```
+## Demo
+
+A working sample can be found [here](https://github.com/JWLee89/bov-web-components/tree/master/bov-css-project-3-accordion)
+
 ## API
 
 ### Instance Options
