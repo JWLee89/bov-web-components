@@ -47,10 +47,10 @@ Instance options are passed in as the second argument of the Constructor. They a
 
 Below are some options that can be provided to the accordion.
 
-`el` - `String`: The css selector of the container of the accordion
-`debug` - `Boolean`: Set to true, if you want data updates to be logged onto the console.
-`multiSelect` - `Boolean`: Set to true in order to have multiple accordions opened simultaneously. If set to false, opening up another accordion will close the current one.
-`toggleAccordion` - `Function`: event listener function that is triggered when the title is clicked. By default, it opens the accordion. Can be overriden by users for additional customization.
+* `el` - `String`: The css selector of the container of the accordion
+* `debug` - `Boolean`: Set to true, if you want data updates to be logged onto the console.
+* `multiSelect` - `Boolean`: Set to true in order to have multiple accordions opened simultaneously. If set to false, opening up another accordion will close the current one.
+* `toggleAccordion` - `Function`: event listener function that is triggered when the title is clicked. By default, it opens the accordion. Can be overriden by users for additional customization.
 
 
 ### Data
