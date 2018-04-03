@@ -565,7 +565,7 @@
         var options = that.options;
 
         // Thumbnail gallery
-        var thumbnailGallery = createVirtualEl("div", { className: options.thumbnailContainerClass, style: "position: relative; width: 100%; height: 130px; z-index: 1000; overflow-x: auto; overflow-y:hidden; white-space: nowrap;"});
+        var thumbnailGallery = createVirtualEl("div", { className: options.thumbnailContainerClass, style: "position: relative; width: 100%; height: 140px; z-index: 1000; overflow-x: auto; overflow-y:hidden; white-space: nowrap;"});
 
         var virtualGalleryRoot = createVirtualEl("div", { className: options.galleryContainerClass, style: "position: relative; width: 100%; height: 100%;"},
             dataList.map(function(data, index) {
