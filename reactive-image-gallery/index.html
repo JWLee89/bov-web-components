@@ -1,0 +1,351 @@
+<html>
+<style type="text/css">
+
+    /**
+     * Image gallery style.
+     * =========================
+     */
+    .centered-container {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #imageGallery {
+        box-shadow: 0.3px 0.3px 4px 0.4px #999;
+        border: 10px solid #f1f2f3;
+    }
+
+    .reactive-gallery-container {
+        background-color: #444;
+        position: relative;
+    }
+
+    .reactive-gallery-item-container {
+        transition: opacity 0.75s ease-in-out;
+    }
+
+    .reactive-gallery-item-container .active {
+        display: block;
+    }
+
+    .reactive-gallery-thumbnail-container img {
+        transition: transform 0.4s;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .no-transition {
+        transition: none !important;
+    }
+
+    .reactive-gallery-thumbnail-container img.active {
+        transform: scale(1.2) rotate(360deg);
+    }
+
+    .reactive-gallery-arrow {
+        background-color: #000;
+        border-radius: 50px;
+        color: #fff;
+        cursor: pointer;
+        height: 45px;
+        opacity: 0.6;
+        padding: 10px;
+        position: absolute;
+        top: 45%;
+        width: 45px;
+    }
+
+    .reactive-gallery-caption {
+        font-style: italic;
+    }
+
+    .reactive-gallery-arrow:hover {
+        opacity: 1;
+    }
+
+    .arrow-left {
+        left: 1%;
+    }
+
+    .arrow-left::before {
+        content: "❰";
+    }
+
+    .arrow-right {
+        right: 1%;
+    }
+
+    .arrow-right::before {
+        content: "❱";
+    }
+
+    .reactive-gallery-caption, .reactive-gallery-item-title {
+        background-color: #000;
+        color: #fff;
+        opacity: 0.5;
+        padding: 20px 0;
+    }
+
+    /**
+      * Scrollbar
+      */
+
+    .reactive-gallery-thumbnail-container::-webkit-scrollbar-track {
+        background-color: #F5F5F5;
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .reactive-gallery-thumbnail-container::-webkit-scrollbar {
+        background-color: #F5F5F5;
+        width: 15px;
+    }
+
+    .reactive-gallery-thumbnail-container::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #DDD;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    }
+
+    /**
+     * Form Style
+     * ================================================
+     */
+
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    /**
+      * Utility
+      */
+    .inline-block {
+        display: inline-block;
+    }
+
+    .margin-left-15 {
+        margin-left: 15px;
+    }
+
+    .margin-15 {
+        margin: 15px;
+    }
+
+    .line-separator {
+        height: 0;
+        border-top: 1px solid #f1f2f3;
+        margin: 15px 0;
+    }
+
+    .btn-dark-blue {
+        background-color: #003366;
+        color: #fff;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    /**
+      * Basic content CSS
+      */
+
+    #accordion {
+    }
+
+    .header {
+        text-align: center;
+    }
+
+    .form-header {
+        position: relative;
+        margin-top: 0;
+        margin-left: 20px;
+        color: #037584;
+    }
+
+    .form-header:before {
+        content: "";
+        height: 30px;
+        left: -10px;
+        position: absolute;
+        top: -3px;
+        width: 3px;
+        background-color: darkslategray;
+    }
+
+    #accordion, .form {
+        margin: 0 auto;
+        max-width: 600px;
+    }
+
+    .checkbox-square {
+        background-color: #444;
+        cursor: pointer;
+        height: 40px;
+        position: relative;
+        width: 40px;
+        vertical-align: middle;
+    }
+
+    .checkbox {
+        padding: 10px;
+        background-color: beige;
+    }
+
+    .form {
+        margin-top: 50px;
+        padding: 20px;
+        border: 1px solid #f1f2f3;
+    }
+
+    .btn {
+        border: none;
+        border-radius: 0;
+        cursor: pointer;
+        padding: 15px;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .btn:hover {
+        opacity: 0.75;
+    }
+
+    .label {
+        margin: 20px;
+        font-size: 1.2em;
+        letter-spacing: 0.05em;
+    }
+
+    .input {
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        font-size: 1.1em;
+        padding: 6px;
+    }
+
+    .textarea {
+        width: 560px;
+        height: 200px;
+    }
+
+</style>
+<body>
+    <div class="centered-container">
+        <h1>Reactive gallery</h1>
+        <div id="imageGallery" style="width:700px; margin:0 auto;"></div>
+    </div>
+    <!-- Dummy form -->
+    <div class="form">
+        <h3 class="form-header">Update the Reactive Image Gallery</h3>
+        <div class="line-separator"></div>
+        <div class="label">Update Current Title</div>
+        <input class="input" type="text" id="titleText">
+        <button class="btn btn-dark-blue margin-left-15" onclick="changeHeading()">Apply</button>
+        <div class="line-separator"></div>
+        <div class="label">Update Current Caption</div>
+        <input class="input" type="text" id="captionText">
+        <button class="btn btn-dark-blue margin-left-15" onclick="changeCaption()">Apply</button>
+        <div class="line-separator"></div>
+        <div class="label">Update Current Image URL</div>
+        <input class="input" type="text" id="srcText" value="https://thomasmountainborn.com/wp-content/uploads/2016/09/Unity-OpenCV.png">
+        <button class="btn btn-dark-blue margin-left-15" onclick="changeImageUrl()">Apply</button>
+        <div class="line-separator"></div>
+        <div class="label inline-block">Enable Auto-play</div>
+        <input class="checkbox-square" type="checkbox" id="toggleAutoPlay" checked>
+    </div>
+</body>
+<script src="imageGallery.js"></script>
+<script type="text/javascript">
+    var gallery;
+    (function() {
+        var imageRoot = document.getElementById("imageGallery");
+        gallery = new ReactiveGallery({
+            rootElement: imageRoot,
+            data: [
+                {
+                    src:"http://runt-of-the-web.com/wordpress/wp-content/uploads/2013/11/doge-meme-plant.jpg",
+                    alt: "doge",
+                    title:  "Doge again!",
+                    caption: "So creativity! Much tired."
+                },
+                {
+                    src:"https://images.freeimages.com/images/large-previews/310/resting-peacefully-1574880.jpg",
+                    caption: "A sleeping child looks so peaceful :)",
+                    title: "Sleeping Child",
+                    alt: "Sleeping child"
+                },
+                {
+                    src:"http://www.ghanalive.tv/wp-content/uploads/2018/03/web-mr-bean-atkinson-bbc-uk.jpg",
+                    title: "He needs no captions",
+                },
+                {
+                    src:"https://thomasmountainborn.com/wp-content/uploads/2016/09/Unity-OpenCV.png",
+                    alt:"OPEN CV",
+                    caption: "No title here. OpenCV (Open Source Computer Vision Library) is released under a BSD license and hence it’s free for both academic and commercial use."
+                },
+                {
+                    src:"https://pmcvariety.files.wordpress.com/2014/10/rush-hour-tv-show.jpg?w=1000&h=563&crop=1",
+                    alt:"My Favorite Movie Series",
+                    title: "Rush hour",
+                    caption: "The Jackie Chan and Chris Tucker combo is without a doubt, my favorite combination in any Movie that I've ever watched."
+                },
+                {
+                    src:"https://avatars3.githubusercontent.com/u/26952818?s=460&v=4",
+                    title: "Moi",
+                    caption: "I am running out of ideas on what kind of images to add."
+                },
+                {
+                    src:"http://runt-of-the-web.com/wordpress/wp-content/uploads/2013/11/doge-dj.jpg",
+                    alt: "Doge memes",
+                    caption: "Doge memes are cool I guess"
+                }
+            ],
+            options: {
+                autoPlay: {
+                    enabled: true,
+                    timePeriod: 10000           // Every 10 seconds, move to the next item
+                },
+                startingIndex: 3,               // Start from fourth image
+                thumbnailPosition: "top",
+                stretchImage: true,             // Not fully implemented yet
+                showThumbnails: true,           // Not yet implemented
+                lazyLoad: true                  // Not yet implemented
+            }
+        });
+        console.log(gallery);
+    })();
+
+    /**
+     * Notice that there is no manipulation of data, but simply a manipulation of text
+     * */
+    function changeCaption() {
+        gallery.data[gallery.currentStatus.index].caption = document.getElementById("captionText").value;
+    }
+
+    /**
+     * Note that these are all re-active
+     * */
+    function changeHeading() {
+        gallery.data[gallery.currentStatus.index].title = document.getElementById("titleText").value;
+    }
+
+    function changeImageUrl() {
+        gallery.data[gallery.currentStatus.index].src = document.getElementById("srcText").value;
+    }
+
+    // Autoplay triggers once after cancelled.
+    function toggleAutoPlay() {
+        gallery.options.autoPlay.enabled = !!this.checked;
+    }
+
+    function init() {
+        document.getElementById("toggleAutoPlay").addEventListener("change", toggleAutoPlay);
+    }
+
+    init();
+
+</script>
+</html>
