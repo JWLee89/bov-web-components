@@ -38,3 +38,8 @@ A repository with some of the web components that I create as a student at Bov A
 
 * [Repository URL](https://github.com/JWLee89/bov-web-components/tree/master/bov-css-project-5-product-listing)
 * [Live demo](https://jwlee89.github.io/bov-web-components/bov-css-project-5-product-listing)
+
+### 6 - Reactive Image Gallery
+
+* [Repository URL](https://github.com/JWLee89/bov-web-components/tree/master/reactive-image-gallery)
+* [Live demo](https://jwlee89.github.io/bov-web-components/reactive-image-gallery/)
