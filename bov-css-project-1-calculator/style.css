@@ -1,6 +1,6 @@
 .calculator-container {
     margin: 0 auto;
-    width: 400px;
+    width: 600px;
 }
 
 .btn {
@@ -30,7 +30,7 @@
     cursor: pointer;
     box-sizing: border-box;
     display: table-cell;
-    font-size: 1.2em;
+    font-size: 2em;
     font-weight: 300;
     height: 50px;
     position: relative;
@@ -99,4 +99,29 @@
     33% { text-decoration: none; }
     66% { text-decoration: underline;  }
     100% { text-decoration: none; }
+}
+
+/**
+ * Responsive scripts
+ * ========================
+ */
+
+/* Desktop */
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+
+}
+
+/* Tablet */
+@media screen and (max-width: 600px) and (orientation: portrait) {
+    .calculator-container {
+        width: 100%;
+    }
+    .calculator-column {
+        font-size: 1.5em;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 360px) and (orientation: portrait) {
+
 }
