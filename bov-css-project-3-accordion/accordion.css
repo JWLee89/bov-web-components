@@ -157,9 +157,6 @@ div.ReactiveAccordion-active {
     margin: 0;
 }
 
-.ReactiveAccordion-title {
-    border-bottom: 1px solid #dfdce3;
-}
 /* Active title */
 div.ReactiveAccordion-active-title, .ReactiveAccordion-title:hover {
     background-color: #1995ad;
