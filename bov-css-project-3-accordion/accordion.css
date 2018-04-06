@@ -153,7 +153,7 @@ div.ReactiveAccordion-active {
 }
 
 .ReactiveAccordion-container {
-    border: 1px solid #dfd3e3;
+    border: 1px solid #a1d6e2;
     margin: 0;
 }
 
@@ -162,7 +162,7 @@ div.ReactiveAccordion-active {
 }
 /* Active title */
 div.ReactiveAccordion-active-title, .ReactiveAccordion-title:hover {
-    background-color: #037584;
+    background-color: #1995ad;
     color: #fff;
 }
 
