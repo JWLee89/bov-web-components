@@ -121,6 +121,7 @@
     }
     .calculator-input {
         font-size: 2em;   
+        height: 50px;
     }
 }
 
@@ -130,6 +131,7 @@
         font-size: 1.25em;
     }
     .calculator-input {
-        font-size: 1.5em;   
+        font-size: 1.5em;
+        height: 40px;
     }
 }
