@@ -119,11 +119,17 @@
     .calculator-column {
         font-size: 1.5em;
     }
+    .calculator-input {
+        font-size: 2em;   
+    }
 }
 
 /* Mobile */
 @media screen and (max-width: 360px) and (orientation: portrait) {
     .calculator-column {
-        font-size: 1.1em;
+        font-size: 1.25em;
+    }
+    .calculator-input {
+        font-size: 1.5em;   
     }
 }
